@@ -1,26 +1,28 @@
 package Facade;
 
 import FactoryMenu.Dishes.*;
+import FactoryMenu.Dishes.Calculate;
 import FactoryMenu.Dishes.KazakhCuisine.*;
 import FactoryMenu.Dishes.ItalianCuisine.*;
 import FactoryMenu.Dishes.KoreanCuisine.*;
 import FactoryMenu.Drink.Drink;
 import FactoryMenu.Drink.DrinkFactory;
 import FactoryMenu.Drink.DrinkSet;
-import FactoryMenu.Drink.JuiceFactory;
+import FactoryMenu.Drink.*;
 import FactoryMenu.ShowAllMenu;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.Scanner;
 
 public class Facade {
     int cuisineChoice;
     boolean running=true;
-    Beshbarmak show=new Beshbarmak();
     DishCreator kazakhDish=new KazakhDish();
     DishCreator italianDish=new ItalianDish();
     DishCreator koreanDish=new KoreanDish();
     DrinkSet drinks=new DrinkSet();
     ShowAllMenu showAllMenu=new ShowAllMenu();
+    Calculate calculate=new Calculate();
     public void mainMenu() {
         while(running){
             System.out.println("=====PICK ME RESTAURANT=====" +
@@ -36,6 +38,8 @@ public class Facade {
                     showAllMenu.showMenu();
                     break;
                 case 2:
+                    boolean order=true;
+                    while (order){
                     cuisineMenu();
                     switch (cuisineChoice) {
                         case 1:
@@ -50,9 +54,17 @@ public class Facade {
                         case 4:
                             drinkMenu();
                             break;
+                        case 0:
+                            int total=0;
+                            total=total+calculate.getDish();
+                            System.out.println(total);
+                            order=false;
+                            break;
                         default:
                             System.out.println("Invalid choice.");
-                    }
+                            order=false;
+                            break;
+                    }}
                     break;
                 case 0:
                     running=false;
@@ -74,19 +86,24 @@ public class Facade {
     public void kazakhMenu() {
         System.out.println("This is our Kazakh cuisine!:) " +
                 "Please select from the menu what you want to order:");
-        show.showDish();
-        System.out.println( "\n2.Mantas\n3.Kuyrdak");
+        System.out.println( "1.Beshbarmak\n2.Mantas\n3.Kuyrdak");
         System.out.println("Choose:");
         int orderKazakhDish = new Scanner(System.in).nextInt();
         switch (orderKazakhDish) {
             case 1:
                 myDish= String.valueOf(kazakhDish.createDish(DishCategory.BESHBARMAK));;
+                calculate.addCalculate(kazakhDish.createDish(DishCategory.BESHBARMAK));
+                calculate.getDish();
                 break;
             case 2:
                 myDish= String.valueOf(kazakhDish.createDish(DishCategory.MANTAS));
+                calculate.addCalculate(kazakhDish.createDish(DishCategory.MANTAS));
+                calculate.getDish();
                 break;
             case 3:
                 myDish= String.valueOf(kazakhDish.createDish(DishCategory.QUYRDAQ));
+                calculate.addCalculate(kazakhDish.createDish(DishCategory.QUYRDAQ));
+                calculate.getDish();
                 break;
             case 4:
                 break;
@@ -125,6 +142,7 @@ public class Facade {
         System.out.println("1.Ramen\n2.Sushi\n3.Tokpokki");
         System.out.println("Choose:");
         int orderKoreanDish = new Scanner(System.in).nextInt();
+        Dish total;
         switch (orderKoreanDish) {
             case 1:
                 myDish= String.valueOf(koreanDish.createDish(DishCategory.RAMEN));
@@ -146,6 +164,7 @@ public class Facade {
         drinks.displayDrinks();
         int orderDrinkDish = new Scanner(System.in).nextInt();
                 myDish= String.valueOf(drinks.getDrinkFactory().get(orderDrinkDish - 1).makeDrink());
-        System.out.println(myDish+ " is ordered");
+
+                System.out.println(myDish+ " is ordered ");
         }
 }
