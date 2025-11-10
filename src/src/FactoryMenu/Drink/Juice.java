@@ -9,4 +9,8 @@ public class Juice implements Drink {
     public int drinkPrice(){
         return 500;
     }
+    @Override
+    public String toString(){
+        return drinkName();
+    }
 }

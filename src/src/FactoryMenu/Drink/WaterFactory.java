@@ -1,9 +1,9 @@
 package FactoryMenu.Drink;
 
-public class LemonadeFactory extends DrinkFactory {
+public class WaterFactory extends DrinkFactory{
     @Override
-    public Drink makeDrink() {
-        return new Lemonade();
+    public Drink makeDrink(){
+        return new Water();
     }
     @Override
     public String toString(){

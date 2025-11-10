@@ -1,6 +1,6 @@
 package FactoryMenu.Dishes;
 
-public interface Dishes {
+public interface Dish {
     String dishName();
-    int dishPrice();
+    int getDishPrice();
 }

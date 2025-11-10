@@ -5,4 +5,8 @@ public class JuiceFactory extends DrinkFactory {
     public Drink makeDrink(){
         return new Juice();
     }
+    @Override
+    public String toString(){
+        return makeDrink().toString();
+    }
 }

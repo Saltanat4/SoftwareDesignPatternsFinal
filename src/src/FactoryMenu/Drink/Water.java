@@ -1,13 +1,13 @@
 package FactoryMenu.Drink;
 
-public class Lemonade implements Drink{
+public class Water implements Drink {
     @Override
-    public String drinkName(){
-        return "Lemonade";
+    public String drinkName() {
+        return "Water";
     }
     @Override
-    public int drinkPrice(){
-        return 1000;
+    public int drinkPrice() {
+        return 300;
     }
     @Override
     public String toString(){
