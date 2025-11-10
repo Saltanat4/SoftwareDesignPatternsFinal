@@ -26,8 +26,8 @@ public class Facade {
             System.out.println("=====PICK ME RESTAURANT=====" +
                     "\nWelcome to our restaurant!");
             System.out.println("1.Show all menu");
-            System.out.println("2.Choose cuisine");
-            System.out.println("3.Order dishes");
+            System.out.println("2.Order dishes");
+            System.out.println("3.Pay order");
             System.out.println("0.Exit");
             System.out.println("Choose your choice:");
             int mainMenuChoice = new Scanner(System.in).nextInt();
