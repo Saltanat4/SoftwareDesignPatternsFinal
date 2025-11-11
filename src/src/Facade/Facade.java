@@ -39,7 +39,10 @@ public class Facade {
                     currentUser=new Scanner(System.in).nextLine();
                     ifUser=true;
                 }
-                break;}
+                break;
+        default:
+            System.out.println("Invalid choice\n");
+            break;}
         }
     }
     public void mainMenu() {
@@ -100,7 +103,7 @@ public class Facade {
     Dish myDish;
 
     public void cuisineMenu() {
-        System.out.println("Now you can order food and drinks.(for finish order '0')");
+        System.out.println("Now you can order food and drinks.\n(for finish order '0')");
         System.out.println("What kind of cuisine would you like to try?" +
                 "\n1.Kazakh\n2.Italian\n3.Korean\n4.Drinks\nChoose:");
         cuisineChoice = (new Scanner(System.in)).nextInt();
