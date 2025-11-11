@@ -1,13 +1,12 @@
 package FactoryMenu.Dishes.KazakhCuisine;
 
 import FactoryMenu.Dishes.Dish;
-import FactoryMenu.Dishes.DishCreator;
+import FactoryMenu.Dishes.DishFactory;
 import FactoryMenu.Dishes.DishCategory;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class KazakhDish implements DishCreator {
+public class KazakhDish implements DishFactory {
     ArrayList<Dish> dishes= new ArrayList<>();
     @Override
     public Dish createDish(DishCategory dish) {

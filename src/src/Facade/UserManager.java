@@ -45,8 +45,8 @@ public class UserManager {
             System.out.println("Invalid age.");
             return false;
         }
-        if (age < 15) {
-            System.out.println("You are too young to play this game!");
+        if (age < 12) {
+            System.out.println("You are too young!");
             return false;
         }
         System.out.print("Enter password: ");

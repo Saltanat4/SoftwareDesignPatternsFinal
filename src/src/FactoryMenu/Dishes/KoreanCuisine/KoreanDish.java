@@ -1,11 +1,11 @@
 package FactoryMenu.Dishes.KoreanCuisine;
 
 import FactoryMenu.Dishes.Dish;
-import FactoryMenu.Dishes.DishCreator;
+import FactoryMenu.Dishes.DishFactory;
 import FactoryMenu.Dishes.DishCategory;
 import java.util.ArrayList;
 
-public class KoreanDish implements DishCreator{
+public class KoreanDish implements DishFactory {
     ArrayList<Dish> dishes = new ArrayList<>();
     @Override
     public Dish createDish(DishCategory dish){

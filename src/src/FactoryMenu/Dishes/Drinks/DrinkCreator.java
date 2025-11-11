@@ -2,12 +2,12 @@ package FactoryMenu.Dishes.Drinks;
 
 import FactoryMenu.Dishes.Dish;
 import FactoryMenu.Dishes.DishCategory;
-import FactoryMenu.Dishes.DishCreator;
+import FactoryMenu.Dishes.DishFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrinkCreator implements DishCreator {
+public class DrinkCreator implements DishFactory {
     ArrayList<Dish> dishes = new ArrayList<>();
     @Override
     public Dish createDish(DishCategory dish){
