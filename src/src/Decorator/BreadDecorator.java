@@ -11,6 +11,6 @@ public class BreadDecorator extends DishDecorator {
     }
     @Override
     public int getDishPrice() {
-        return dish.getDishPrice();
+        return dish.getDishPrice() + 200;
     }
 }
