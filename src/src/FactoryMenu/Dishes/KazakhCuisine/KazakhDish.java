@@ -23,8 +23,12 @@ public class KazakhDish implements DishCreator {
         dishes.add(new Mantas());
         dishes.add(new Quyrdaq());
     }
-    public List<Dish> getDishes() {
-        System.out.print("Kazakh Dishes: ");
-        return dishes ;
+    public ArrayList<Dish> getDishes() {
+        System.out.print("Korean Dishes: ");
+        return dishes;
+    }
+    public void displayDishes() {
+        System.out.println("Kazakh Dishes:");
+        dishes.forEach(dish -> System.out.println(" - " + dish.dishName() + " : " + dish.getDishPrice() + "₸"));
     }
 }

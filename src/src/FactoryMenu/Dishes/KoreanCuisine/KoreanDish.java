@@ -21,8 +21,14 @@ public class KoreanDish implements DishCreator{
         dishes.add(new Sushi());
         dishes.add(new Tteokpokki());
     }
+    @Override
     public ArrayList<Dish> getDishes() {
         System.out.print("Korean Dishes: ");
         return dishes;
     }
+    public void displayDishes() {
+        System.out.println("Korean Dishes:");
+        dishes.forEach(dish -> System.out.println(" - " + dish.dishName() + " : " + dish.getDishPrice() + "₸"));
+    }
+
 }

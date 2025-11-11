@@ -26,4 +26,8 @@ public class ItalianDish implements DishCreator{
         System.out.print("Italian Dishes: ");
         return dishes;
     }
+    public void displayDishes() {
+        System.out.println("Italian Dishes:");
+        dishes.forEach(dish -> System.out.println(" - " + dish.dishName() + " : " + dish.getDishPrice() + "₸"));
+    }
 }

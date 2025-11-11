@@ -13,14 +13,14 @@ public class ShowAllMenu {
     public void showMenu() {
         KazakhDish kazakhDish=new KazakhDish();
         kazakhDish.setKazakhDish();
-        System.out.println(kazakhDish.getDishes());
+        kazakhDish.displayDishes();
         KoreanDish koreanDish=new KoreanDish();
         koreanDish.setDishes();
-        System.out.println(koreanDish.getDishes());
+        koreanDish.displayDishes();
         ItalianDish italianDish=new ItalianDish();
         italianDish.setDishes();
-        System.out.println(italianDish.getDishes());
+        italianDish.displayDishes();
         DrinkSet drinkSet=new DrinkSet();
-        System.out.println(drinkSet.getDrinkFactory());
+        drinkSet.displayDrinks();
     }
 }

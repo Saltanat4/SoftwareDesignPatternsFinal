@@ -57,7 +57,7 @@ public class Facade {
                         case 0:
                             int total=0;
                             total=total+calculate.getDish();
-                            System.out.println(total);
+                            System.out.println("Total: "+total);
                             order=false;
                             break;
                         default:
@@ -77,10 +77,10 @@ public class Facade {
     }
 
     public void cuisineMenu() {
+        System.out.println("Now you can order food and drinks.");
         System.out.println("What kind of cuisine would you like to try?" +
                 "\n1.Kazakh\n2.Italian\n3.Korean\n4.Drinks\nChoose:");
         cuisineChoice = (new Scanner(System.in)).nextInt();
-        System.out.println("Now you can order food and drinks.");
     }
     String myDish;
     public void kazakhMenu() {
@@ -122,12 +122,18 @@ public class Facade {
         switch (orderItalianDish) {
             case 1:
                 myDish= String.valueOf(italianDish.createDish(DishCategory.PASTA));
+                calculate.addCalculate(italianDish.createDish(DishCategory.PASTA));
+                calculate.getDish();
                 break;
             case 2:
                 myDish= String.valueOf(italianDish.createDish(DishCategory.LAZAGNA));
+                calculate.addCalculate(italianDish.createDish(DishCategory.LAZAGNA));
+                calculate.getDish();
                 break;
             case 3:
                 myDish= String.valueOf(italianDish.createDish(DishCategory.RISOTTO));
+                calculate.addCalculate(italianDish.createDish(DishCategory.RISOTTO));
+                calculate.getDish();
                 break;
             default:
                 System.out.println("Invalid choice.");
@@ -146,12 +152,18 @@ public class Facade {
         switch (orderKoreanDish) {
             case 1:
                 myDish= String.valueOf(koreanDish.createDish(DishCategory.RAMEN));
+                calculate.addCalculate(koreanDish.createDish(DishCategory.RAMEN));
+                calculate.getDish();
                 break;
             case 2:
                 myDish= String.valueOf(koreanDish.createDish(DishCategory.SUSHI));
+                calculate.addCalculate(koreanDish.createDish(DishCategory.SUSHI));
+                calculate.getDish();
                 break;
             case 3:
                 myDish= String.valueOf(koreanDish.createDish(DishCategory.TTEOKPOKKI));
+                calculate.addCalculate(kazakhDish.createDish(DishCategory.TTEOKPOKKI));
+                calculate.getDish();
                 break;
             default:
                 System.out.println("Invalid choice.");

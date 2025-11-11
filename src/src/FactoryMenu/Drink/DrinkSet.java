@@ -22,10 +22,11 @@ public class DrinkSet {
     }
 
     public void displayDrinks() {
+        System.out.println("Drinks: ");
         int index = 1;
         for (DrinkFactory factory : drinks) {
             Drink drink = factory.makeDrink();
-            System.out.println(index++ + ". " + drink.drinkName() + " => " + drink.drinkPrice());
+            System.out.println( "- " + drink.drinkName() + " => " + drink.drinkPrice());
         }
     }
 }
