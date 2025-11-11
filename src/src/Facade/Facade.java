@@ -1,16 +1,12 @@
 package Facade;
-
+import FactoryMenu.Builder.Order;
 import FactoryMenu.Dishes.*;
 import FactoryMenu.Dishes.Calculate;
 import FactoryMenu.Dishes.KazakhCuisine.*;
 import FactoryMenu.Dishes.ItalianCuisine.*;
 import FactoryMenu.Dishes.KoreanCuisine.*;
-import FactoryMenu.Drink.Drink;
-import FactoryMenu.Drink.DrinkFactory;
 import FactoryMenu.Drink.DrinkSet;
-import FactoryMenu.Drink.*;
 import FactoryMenu.ShowAllMenu;
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.Scanner;
 
@@ -66,6 +62,9 @@ public class Facade {
                             break;
                     }}
                     break;
+                case 3:
+                    makeOrder();
+                    break;
                 case 0:
                     running=false;
                     break;
@@ -75,6 +74,19 @@ public class Facade {
         }
 
     }
+    Dish myDish;
+    public void makeOrder() {
+        Order.OrderBuilder builder = new Order.OrderBuilder();
+
+        builder.addDish(myDish);
+
+        builder.setCustomerName("Aigerim");
+        builder.setAddress("Almaty, Abay street 25");
+        builder.setDiscount(0.10);
+
+        Order order = builder.build();
+        order.showOrder();
+    }
 
     public void cuisineMenu() {
         System.out.println("Now you can order food and drinks.");
@@ -82,7 +94,6 @@ public class Facade {
                 "\n1.Kazakh\n2.Italian\n3.Korean\n4.Drinks\nChoose:");
         cuisineChoice = (new Scanner(System.in)).nextInt();
     }
-    String myDish;
     public void kazakhMenu() {
         System.out.println("This is our Kazakh cuisine!:) " +
                 "Please select from the menu what you want to order:");
@@ -91,17 +102,17 @@ public class Facade {
         int orderKazakhDish = new Scanner(System.in).nextInt();
         switch (orderKazakhDish) {
             case 1:
-                myDish= String.valueOf(kazakhDish.createDish(DishCategory.BESHBARMAK));;
+                myDish=kazakhDish.createDish(DishCategory.BESHBARMAK);
                 calculate.addCalculate(kazakhDish.createDish(DishCategory.BESHBARMAK));
                 calculate.getDish();
                 break;
             case 2:
-                myDish= String.valueOf(kazakhDish.createDish(DishCategory.MANTAS));
+                myDish=kazakhDish.createDish(DishCategory.MANTAS);
                 calculate.addCalculate(kazakhDish.createDish(DishCategory.MANTAS));
                 calculate.getDish();
                 break;
             case 3:
-                myDish= String.valueOf(kazakhDish.createDish(DishCategory.QUYRDAQ));
+                myDish= kazakhDish.createDish(DishCategory.QUYRDAQ);
                 calculate.addCalculate(kazakhDish.createDish(DishCategory.QUYRDAQ));
                 calculate.getDish();
                 break;
@@ -121,17 +132,17 @@ public class Facade {
 
         switch (orderItalianDish) {
             case 1:
-                myDish= String.valueOf(italianDish.createDish(DishCategory.PASTA));
+                myDish=italianDish.createDish(DishCategory.PASTA);
                 calculate.addCalculate(italianDish.createDish(DishCategory.PASTA));
                 calculate.getDish();
                 break;
             case 2:
-                myDish= String.valueOf(italianDish.createDish(DishCategory.LAZAGNA));
+                myDish=italianDish.createDish(DishCategory.LAZAGNA);
                 calculate.addCalculate(italianDish.createDish(DishCategory.LAZAGNA));
                 calculate.getDish();
                 break;
             case 3:
-                myDish= String.valueOf(italianDish.createDish(DishCategory.RISOTTO));
+                myDish=italianDish.createDish(DishCategory.RISOTTO);
                 calculate.addCalculate(italianDish.createDish(DishCategory.RISOTTO));
                 calculate.getDish();
                 break;
@@ -151,17 +162,17 @@ public class Facade {
         Dish total;
         switch (orderKoreanDish) {
             case 1:
-                myDish= String.valueOf(koreanDish.createDish(DishCategory.RAMEN));
+                myDish= koreanDish.createDish(DishCategory.RAMEN);
                 calculate.addCalculate(koreanDish.createDish(DishCategory.RAMEN));
                 calculate.getDish();
                 break;
             case 2:
-                myDish= String.valueOf(koreanDish.createDish(DishCategory.SUSHI));
+                myDish= koreanDish.createDish(DishCategory.SUSHI);
                 calculate.addCalculate(koreanDish.createDish(DishCategory.SUSHI));
                 calculate.getDish();
                 break;
             case 3:
-                myDish= String.valueOf(koreanDish.createDish(DishCategory.TTEOKPOKKI));
+                myDish=koreanDish.createDish(DishCategory.TTEOKPOKKI);
                 calculate.addCalculate(kazakhDish.createDish(DishCategory.TTEOKPOKKI));
                 calculate.getDish();
                 break;
@@ -175,7 +186,6 @@ public class Facade {
                 "\nPlease select from the menu what you want to order:");
         drinks.displayDrinks();
         int orderDrinkDish = new Scanner(System.in).nextInt();
-                myDish= String.valueOf(drinks.getDrinkFactory().get(orderDrinkDish - 1).makeDrink());
 
                 System.out.println(myDish+ " is ordered ");
         }
