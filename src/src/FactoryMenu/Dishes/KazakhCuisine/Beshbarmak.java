@@ -11,9 +11,6 @@ public class Beshbarmak implements Dish {
     public int getDishPrice(){
         return price;
     }
-    public void showDish(){
-        System.out.println(dishName()+" => "+getDishPrice());
-    }
     @Override
     public String toString() {
         return dishName() ;

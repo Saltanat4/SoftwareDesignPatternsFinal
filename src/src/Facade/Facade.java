@@ -21,6 +21,7 @@ public class Facade {
     DishCreator koreanDish=new KoreanDish();
     DishCreator drinks=new DrinkCreator();
     ShowAllMenu showAllMenu=new ShowAllMenu();
+
     Calculate calculate=new Calculate();
     boolean ifUser=false;
     public void userInput(){
@@ -34,7 +35,7 @@ public class Facade {
             case 2:
                 boolean ok = userManager.login();
                 if(ok){
-                    System.out.println("Login Successful\nWrite your session name!");
+                    System.out.println("Write your session name!");
                     currentUser=new Scanner(System.in).nextLine();
                     ifUser=true;
                 }
@@ -43,15 +44,12 @@ public class Facade {
     }
     public void mainMenu() {
         userInput();
-        while(running){
-            if(ifUser){
+        while(running && ifUser){
             System.out.println("=====PICK ME RESTAURANT=====" +
                     "\nWelcome to our restaurant!");
             System.out.println("1.Show all menu");
             System.out.println("2.Order dishes");
             System.out.println("3.Pay order");
-            System.out.println("4.Registr");
-            System.out.println("5.LogIn");
             System.out.println("0.Exit");
             System.out.println("Choose your choice:");
             int mainMenuChoice = new Scanner(System.in).nextInt();
@@ -78,7 +76,7 @@ public class Facade {
                             break;
                         case 0:
                             int total=0;
-                            total=total+calculate.getDish();
+                            total=total+ calculate.getDish();
                             System.out.println("Total: "+total);
                             order=false;
                             break;
@@ -91,12 +89,6 @@ public class Facade {
                 case 3:
 
                     break;
-                case 4:
-                    userManager.register();
-                    break;
-                case 5:
-                    userManager.login();
-                    break;
                 case 0:
                     running=false;
                     break;
@@ -104,11 +96,8 @@ public class Facade {
                     System.out.println("Invalid choice.");
             }
         }
-
-    }}
+    }
     Dish myDish;
-
-
 
     public void cuisineMenu() {
         System.out.println("Now you can order food and drinks.(for finish order '0')");
@@ -116,6 +105,7 @@ public class Facade {
                 "\n1.Kazakh\n2.Italian\n3.Korean\n4.Drinks\nChoose:");
         cuisineChoice = (new Scanner(System.in)).nextInt();
     }
+
     public void kazakhMenu() {
         System.out.println("This is our Kazakh cuisine!:) " +
                 "Please select from the menu what you want to order:");
@@ -130,7 +120,7 @@ public class Facade {
                 break;
             case 2:
                 myDish=kazakhDish.createDish(DishCategory.MANTAS);
-                calculate.addCalculate(kazakhDish.createDish(DishCategory.MANTAS));
+                calculate.addCalculate(myDish);
                 calculate.getDish();
                 break;
             case 3:
@@ -209,7 +199,6 @@ public class Facade {
         System.out.println("1.Lemonade\n2.Juice\n3.Water");
         System.out.println("Choose:");
         int orderDrink = new Scanner(System.in).nextInt();
-        Dish total;
         switch (orderDrink) {
             case 1:
                 myDish= drinks.createDish(DishCategory.LEMONADE);

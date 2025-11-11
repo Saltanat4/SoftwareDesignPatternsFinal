@@ -18,7 +18,7 @@ public class DrinkCreator implements DishCreator {
             default -> throw new IllegalStateException("Unexpected value: " + dish);
         };
     }
-    public void setDishes(ArrayList<Dish> dish){
+    public void setDishes(){
         dishes.add(new Lemonade());
         dishes.add(new Juice());
         dishes.add(new Water());

@@ -16,6 +16,7 @@ public class ShowAllMenu {
         italianDish.setDishes();
         italianDish.displayDishes();
         DrinkCreator drinkSet=new DrinkCreator();
+        drinkSet.setDishes();
         drinkSet.displayDishes();
     }
 }

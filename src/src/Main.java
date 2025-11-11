@@ -1,6 +1,6 @@
 import Facade.Facade;
 import FactoryMenu.Dishes.*;
-import FactoryMenu.Drink.*;
+import FactoryMenu.Dishes.Drinks.*;
 import FactoryMenu.*;
 
 

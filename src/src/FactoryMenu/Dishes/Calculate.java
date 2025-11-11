@@ -9,9 +9,9 @@ public class Calculate {
     }
     public int getDish() {
         int total=0;
-        for (Dish d : dishes) {
-            total +=  d.getDishPrice();
-            System.out.println(d+" " + d.getDishPrice()+"tg");
+        for (Dish dish: dishes) {
+            total +=  dish.getDishPrice();
+            System.out.println(dish+" " + dish.getDishPrice()+"tg");
         }return total;
     }
 }
