@@ -4,7 +4,8 @@ import FactoryMenu.Dishes.Dish;
 import java.util.List;
 
 public class BreadDecorator extends DishDecorator {
-    public BreadDecorator(Dish dish) {
+    public BreadDecorator(
+            Dish dish) {
         super(dish);
     }
     @Override

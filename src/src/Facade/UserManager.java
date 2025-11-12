@@ -55,7 +55,6 @@ public class UserManager {
         System.out.println("Registration successful for: " + name);
         return true;
     }
-
     public boolean login() {
         System.out.println("=== Log in ===");
         System.out.print("Enter name: ");

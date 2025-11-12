@@ -1,16 +1,13 @@
 package Decorator;
 import FactoryMenu.Dishes.Dish;
-import FactoryMenu.Dishes.DishCreator;
-
-import java.util.List;
+import java.util.ArrayList;
 
 public abstract class DishDecorator implements Dish {
     protected Dish dish;
-    DishCreator dishCreator=new DishCreator();
     public DishDecorator(Dish dish) {
         this.dish=dish;
-
     }
+
     @Override
     public String dishName() {
         return dish.dishName();

@@ -3,18 +3,17 @@ package Facade;
 import FactoryMenu.Dishes.*;
 import FactoryMenu.Dishes.Calculate;
 import FactoryMenu.ShowAllMenu;
+import Builder.*;
 
 import java.util.Scanner;
 
 public class Facade {
-    int cuisineChoice;
     boolean running=true;
     String currentUser=null;
     DishCreator dishCreator=new DishCreator();
     UserManager userManager=new UserManager(new Scanner(System.in));
     ShowAllMenu showAllMenu=new ShowAllMenu();
 
-    Calculate calculate=new Calculate();
     boolean ifUser=false;
     public void userInput(){
         while(!ifUser){
@@ -54,8 +53,8 @@ public class Facade {
                     break;
                 case 2:
                     dishCreator.cuisineMenu();
-                    System.out.println("Do tou want add extras?");
-                    boolean addExtra = new Scanner(System.in).nextBoolean();
+                    dishCreator.totalCheck();
+                    break;
                 case 3:
                     dishCreator.totalCheck();
                     break;
@@ -68,5 +67,4 @@ public class Facade {
 
         }
     }
-
 }
