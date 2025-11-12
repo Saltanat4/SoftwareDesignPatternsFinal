@@ -2,6 +2,8 @@ package Decorator;
 
 import FactoryMenu.Dishes.Dish;
 
+import java.util.List;
+
 public class SaladDecorator extends DishDecorator {
     public SaladDecorator(Dish dish) {
         super(dish);

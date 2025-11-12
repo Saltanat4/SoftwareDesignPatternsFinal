@@ -7,7 +7,9 @@ import FactoryMenu.Dishes.ItalianCuisine.*;
 import FactoryMenu.Dishes.KoreanCuisine.*;
 import FactoryMenu.ShowAllMenu;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 public class DishCreator {
     Dish myDish;
@@ -150,22 +152,24 @@ public class DishCreator {
         switch (orderDrink) {
             case 1:
                 myDish= drinks.createDish(DishCategory.LEMONADE);
-                calculate.addCalculate(drinks.createDish(DishCategory.LEMONADE));
-                calculate.getDish();
+                calculate.addCalculate(myDish);
                 break;
             case 2:
                 myDish= drinks.createDish(DishCategory.JUICE);
-                calculate.addCalculate(drinks.createDish(DishCategory.JUICE));
-                calculate.getDish();
+                calculate.addCalculate(myDish);
                 break;
             case 3:
                 myDish=drinks.createDish(DishCategory.WATER);
-                calculate.addCalculate(drinks.createDish(DishCategory.WATER));
-                calculate.getDish();
+                calculate.addCalculate(myDish);
                 break;
             default:
                 System.out.println("Invalid choice.");
         }
         System.out.println(myDish+ " is ordered");
+    }
+    public List<Dish> setDish() {
+         List<Dish> dishes=new ArrayList<>();
+         dishes.add(myDish);
+        return dishes;
     }
 }

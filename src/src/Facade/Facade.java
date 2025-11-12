@@ -2,10 +2,6 @@ package Facade;
 
 import FactoryMenu.Dishes.*;
 import FactoryMenu.Dishes.Calculate;
-import FactoryMenu.Dishes.Drinks.DrinkCreator;
-import FactoryMenu.Dishes.KazakhCuisine.*;
-import FactoryMenu.Dishes.ItalianCuisine.*;
-import FactoryMenu.Dishes.KoreanCuisine.*;
 import FactoryMenu.ShowAllMenu;
 
 import java.util.Scanner;
@@ -16,10 +12,6 @@ public class Facade {
     String currentUser=null;
     DishCreator dishCreator=new DishCreator();
     UserManager userManager=new UserManager(new Scanner(System.in));
-    DishFactory kazakhDish=new KazakhDish();
-    DishFactory italianDish=new ItalianDish();
-    DishFactory koreanDish=new KoreanDish();
-    DishFactory drinks=new DrinkCreator();
     ShowAllMenu showAllMenu=new ShowAllMenu();
 
     Calculate calculate=new Calculate();
@@ -62,7 +54,8 @@ public class Facade {
                     break;
                 case 2:
                     dishCreator.cuisineMenu();
-                    break;
+                    System.out.println("Do tou want add extras?");
+                    boolean addExtra = new Scanner(System.in).nextBoolean();
                 case 3:
                     dishCreator.totalCheck();
                     break;
@@ -72,6 +65,7 @@ public class Facade {
                 default:
                     System.out.println("Invalid choice.");
             }
+
         }
     }
 
