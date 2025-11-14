@@ -1,6 +1,6 @@
 package FactoryMenu.Dishes.KazakhCuisine;
 
-import FactoryMenu.Dishes.Dish;
+import FactoryMenu.Dish;
 
 public class Mantas implements Dish {
     int price=3000;

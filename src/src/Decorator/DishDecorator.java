@@ -1,6 +1,5 @@
 package Decorator;
-import FactoryMenu.Dishes.Dish;
-import java.util.ArrayList;
+import FactoryMenu.Dish;
 
 public abstract class DishDecorator implements Dish {
     protected Dish dish;

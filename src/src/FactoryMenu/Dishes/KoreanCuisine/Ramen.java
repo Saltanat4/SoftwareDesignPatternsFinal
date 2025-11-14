@@ -1,6 +1,6 @@
 package FactoryMenu.Dishes.KoreanCuisine;
 
-import FactoryMenu.Dishes.Dish;
+import FactoryMenu.Dish;
 
 public class Ramen implements Dish {
     int price=2000;

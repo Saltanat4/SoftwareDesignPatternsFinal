@@ -1,4 +1,4 @@
-package FactoryMenu.Dishes;
+package FactoryMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,11 @@ public class Calculate {
     public int getDish() {
         return total;
     }
+
     public List<Dish> getDishes() {
         return dishes;
     }
+
     public List<Dish> getOrderedDishes() {
         for(Dish dish:dishes) {
             System.out.println(dish.dishName()+": "+dish.getDishPrice());

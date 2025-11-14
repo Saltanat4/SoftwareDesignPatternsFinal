@@ -1,5 +1,5 @@
-package FactoryMenu.Dishes.Drinks;
-import FactoryMenu.Dishes.Dish;
+package FactoryMenu.Drinks;
+import FactoryMenu.Dish;
 public class Water implements Dish{
     int price=300;
     @Override

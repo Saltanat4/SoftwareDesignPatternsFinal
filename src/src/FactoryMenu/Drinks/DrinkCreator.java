@@ -1,8 +1,8 @@
-package FactoryMenu.Dishes.Drinks;
+package FactoryMenu.Drinks;
 
-import FactoryMenu.Dishes.Dish;
-import FactoryMenu.Dishes.DishCategory;
-import FactoryMenu.Dishes.DishFactory;
+import FactoryMenu.Dish;
+import FactoryMenu.DishCategory;
+import FactoryMenu.DishFactory;
 
 import java.util.ArrayList;
 import java.util.List;

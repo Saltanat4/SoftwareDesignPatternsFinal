@@ -1,5 +1,5 @@
-package FactoryMenu.Dishes.Drinks;
-import FactoryMenu.Dishes.Dish;
+package FactoryMenu.Drinks;
+import FactoryMenu.Dish;
 
 import java.util.ArrayList;
 import java.util.List;

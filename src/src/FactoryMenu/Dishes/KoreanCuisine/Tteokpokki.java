@@ -1,5 +1,5 @@
 package FactoryMenu.Dishes.KoreanCuisine;
-import FactoryMenu.Dishes.Dish;
+import FactoryMenu.Dish;
 
 public class Tteokpokki implements Dish{
     int price=1500;

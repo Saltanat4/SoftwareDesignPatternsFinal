@@ -1,4 +1,4 @@
-package FactoryMenu.Dishes;
+package FactoryMenu;
 
 public interface Dish {
     String dishName();

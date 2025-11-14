@@ -1,16 +1,13 @@
 package Decorator;
-import FactoryMenu.Dishes.Dish;
-
-import java.util.List;
+import FactoryMenu.Dish;
 
 public class BreadDecorator extends DishDecorator {
-    public BreadDecorator(
-            Dish dish) {
+    public BreadDecorator(Dish dish) {
         super(dish);
     }
     @Override
     public String dishName(){
-        return super.dish.dishName()+" Bread";
+        return super.dish.dishName()+" + bread";
     }
     @Override
     public int getDishPrice() {

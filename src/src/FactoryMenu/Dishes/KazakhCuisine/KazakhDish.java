@@ -1,8 +1,8 @@
 package FactoryMenu.Dishes.KazakhCuisine;
 
-import FactoryMenu.Dishes.Dish;
-import FactoryMenu.Dishes.DishFactory;
-import FactoryMenu.Dishes.DishCategory;
+import FactoryMenu.Dish;
+import FactoryMenu.DishFactory;
+import FactoryMenu.DishCategory;
 
 import java.util.ArrayList;
 

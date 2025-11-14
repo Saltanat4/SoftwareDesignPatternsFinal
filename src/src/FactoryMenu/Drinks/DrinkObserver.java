@@ -1,4 +1,4 @@
-package FactoryMenu.Dishes.Drinks;
+package FactoryMenu.Drinks;
 
 public interface DrinkObserver {
     public void addObserver(DrinkObserver observer);

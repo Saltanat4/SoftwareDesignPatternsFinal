@@ -1,5 +1,5 @@
 package FactoryMenu.Dishes.ItalianCuisine;
-import FactoryMenu.Dishes.Dish;
+import FactoryMenu.Dish;
 
 public class Lasagna implements Dish{
     int price=2500;

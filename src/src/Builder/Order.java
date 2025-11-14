@@ -1,10 +1,8 @@
 package Builder;
 
 import java.util.List;
-import FactoryMenu.Dishes.Dish;
+import FactoryMenu.Dish;
 import java.util.ArrayList;
-import java.util.List;
-import Facade.* ;
 
 public class Order {
     private final List<Dish> dishes;

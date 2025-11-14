@@ -1,7 +1,5 @@
 package Decorator;
-import FactoryMenu.Dishes.Dish;
-
-import java.util.List;
+import FactoryMenu.Dish;
 
 public class SauceDecorator extends DishDecorator {
     public SauceDecorator(Dish dish) {
@@ -9,7 +7,7 @@ public class SauceDecorator extends DishDecorator {
     }
     @Override
     public String dishName() {
-        return dish.dishName() + " +Sauce";
+        return dish.dishName() + " + sauce";
     }
     @Override
     public int getDishPrice(){

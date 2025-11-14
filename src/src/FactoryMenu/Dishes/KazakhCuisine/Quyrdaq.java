@@ -1,6 +1,6 @@
 package FactoryMenu.Dishes.KazakhCuisine;
 
-import FactoryMenu.Dishes.Dish;
+import FactoryMenu.Dish;
 
 public class Quyrdaq implements Dish {
     int price=2500;

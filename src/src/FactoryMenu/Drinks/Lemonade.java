@@ -1,6 +1,6 @@
-package FactoryMenu.Dishes.Drinks;
+package FactoryMenu.Drinks;
 
-import FactoryMenu.Dishes.Dish;
+import FactoryMenu.Dish;
 
 public class Lemonade implements Dish{
     int price=700;
