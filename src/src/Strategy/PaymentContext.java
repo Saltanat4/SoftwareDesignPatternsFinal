@@ -2,7 +2,7 @@ package Strategy;
 
 public class PaymentContext {
     private PaymentStrategy strategy;
-    public void PaymentStrategy(PaymentStrategy strategy) {
+    public PaymentContext(PaymentStrategy strategy) {
         this.strategy = strategy;
     }
     public void executeStrategy(int amount) {

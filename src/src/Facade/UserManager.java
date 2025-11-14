@@ -1,77 +1,47 @@
 package Facade;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
-public class UserManager {
-    private final Map<String, User> users = new HashMap<>();
-    private final Scanner scanner;
+public class UserManager{
+    private List<UserManager> users=new  ArrayList<UserManager>();
+    private  String name;
+    private  String password;
+    private  int age;
+    Scanner sc = new Scanner(System.in);
 
-    public UserManager(Scanner scanner) {
-        this.scanner = scanner;
+    public UserManager(String name, String password, int age){
+        this.name=name;
+        this.password=password;
+        this.age=age;
+    };
+
+    public String getName(){
+        return name;
     }
-    public static class User {
-        private final String name;
-        private final int age;
-        private final String password;
-
-        public User(String name, int age, String password) {
-            this.name = name;
-            this.age = age;
-            this.password = password;
-        }
-
-        public String getName() { return name; }
-        public String getPassword() { return password; }
+    public String getPassword(){
+        return password;
+    }
+    public int getAge(){
+        return age;
     }
 
-    public boolean register() {
-        System.out.println("=== Registration ===");
-        System.out.print("Enter name: ");
-        String name = scanner.nextLine().trim();
-        if (name.isEmpty()) {
-            System.out.println("Name cannot be empty.");
-            return false;
+    public void register(){
+        System.out.println("Registering User\nPlease enter your name: ");
+        name=sc.nextLine();
+        System.out.println("Password: ");
+        password=sc.nextLine();
+        if (password.length() < 8) {
+            System.out.println("Please enter a password that is at least 8 characters long!");
+            password=sc.nextLine();
         }
-        if (users.containsKey(name)) {
-            System.out.println("This name is already registered. Use another name or log in.");
-            return false;
-        }
-        System.out.print("Enter age: ");
-        int age;
-        try {
-            age = Integer.parseInt(scanner.nextLine().trim());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid age.");
-            return false;
-        }
-        if (age < 12) {
-            System.out.println("You are too young!");
-            return false;
-        }
-        System.out.print("Enter password: ");
-        String pwd = scanner.nextLine();
-        users.put(name, new User(name, age, pwd));
-        System.out.println("Registration successful for: " + name);
-        return true;
+        System.out.println("Please enter your age: ");
+        age=sc.nextInt();
+
+        System.out.println("Welcome to our online Pick Me restaurant! You are successfully registered!");
     }
-    public boolean login() {
-        System.out.println("=== Log in ===");
-        System.out.print("Enter name: ");
-        String name = scanner.nextLine().trim();
-        if (!users.containsKey(name)) {
-            System.out.println("User not found. Please register first.");
-            return false;
-        }
-        System.out.print("Enter password: ");
-        String pwd = scanner.nextLine();
-        User u = users.get(name);
-        if (u.getPassword().equals(pwd)) {
-            System.out.println("Login successful. Welcome, " + u.getName() + "!");
-            return true;
-        } else {
-            System.out.println("Incorrect password.");
-            return false;
-        }
+
+    public void login(){
+
     }
 }
