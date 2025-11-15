@@ -11,7 +11,6 @@ import Strategy.*;
 import Decorator.*;
 import Builder.*;
 
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -185,7 +184,6 @@ public class Facade{
         System.out.println("===Choose Dishes===");
         System.out.println("1.Ramen\n2.Sushi\n3.Tteokpokki\nChoose:");
         int dishChoice=choice.nextInt();
-        ArrayList<KoreanDish> koreanDishes=new ArrayList<>();
         switch(dishChoice) {
             case 1:
                 processDish(new Ramen());

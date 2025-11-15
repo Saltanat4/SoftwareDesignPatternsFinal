@@ -18,8 +18,10 @@ public class Order {
     public boolean isDiscountApplied() {
         return discountApplied;
     }
-    public List<Dish> getDishes() { return dishes; }
-    public int getTotalPrice() { return totalPrice; }
+    public List<Dish> getDishes() {
+        return dishes; }
+    public int getTotalPrice() {
+        return totalPrice; }
 
     public static class OrderBuilder {
         private List<Dish> dishes = new ArrayList<>();
