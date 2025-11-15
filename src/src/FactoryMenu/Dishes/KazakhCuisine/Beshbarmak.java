@@ -5,7 +5,7 @@ import Observer.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Beshbarmak implements Dish {
+public class Beshbarmak implements Dish, Subject {
     private final List<Observer> observers=new ArrayList<>();
     private String message="";
 

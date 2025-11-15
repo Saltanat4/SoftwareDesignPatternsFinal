@@ -6,7 +6,7 @@ import Observer.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mantas implements Dish {
+public class Mantas implements Dish, Subject {
     private final List<Observer> observers=new ArrayList<>();
     private String message="";
 

@@ -4,7 +4,7 @@ import Observer.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Water implements FactoryMenu.Dish {
+public class Water implements FactoryMenu.Dish, Subject {
     private final List<Observer> observers=new ArrayList<>();
     private String message="";
 

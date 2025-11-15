@@ -1,7 +1,5 @@
 package Decorator;
-
 import FactoryMenu.Dish;
-import Observer.Observer;
 
 public class SaladDecorator extends DishDecorator {
     private final int cost = 1500;

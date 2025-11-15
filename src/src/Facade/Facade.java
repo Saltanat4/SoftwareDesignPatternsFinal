@@ -13,22 +13,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Facade{
     private final List<Dish> orderDishes=new ArrayList<>();
     private final List<Dish> orderDrinks=new ArrayList<>();
+
     private final KazakhDish kazakhDishes=new KazakhDish();
     private final ItalianDish italianDishes=new ItalianDish();
     private final KoreanDish koreanDishes=new KoreanDish();
     private final DrinkCreator drinks=new DrinkCreator();
+
     private final PaymentContext cardPayment=new PaymentContext(new CardPayment());
     private final PaymentContext cashPayment=new PaymentContext(new CashPayment());
     private final PaymentContext qrPayment=new PaymentContext(new QRPayment());
+
     private Dish dish;
 
-    private final ArrayList<Dish> dishes=new ArrayList<>();
-
-    orderObserver order =new orderObserver();
+    private final Subject subject=new Beshbarmak();
+    userObserver userObserver=new userObserver();
+    orderObserver orderObserver =new orderObserver();
     public String message;
 
     UserManager userManager=new UserManager();
@@ -46,7 +48,7 @@ public class Facade{
                 System.out.println("2.Order dishes");
                 System.out.println("3.Order drinks");
                 System.out.println("4.Show ordered dishes");
-                System.out.println("5.Pay order");
+                System.out.println("5.Pay orderObserver");
                 System.out.println("6.Log out");
                 System.out.println("7.Add new user");
                 System.out.println("0.Exit");
@@ -72,6 +74,9 @@ public class Facade{
                         break;
                     case 7:
                         userManager.register();
+                        subject.addObserver(userObserver);
+                        subject.setMessage("Added new user account!");
+                        subject.removeObserver(userObserver);
                         mainMenu();
                     case 0:
                         running = false;
@@ -82,13 +87,14 @@ public class Facade{
                 }
             }
             else if(loggedOut) {
-                System.out.println("You are not logged in!");
                 userManager.login();
                 loggedOut=false;
                 loggedIn=true;
             }
             else{
-                System.out.println("\nHello! First, you need to log into the system!");
+                subject.addObserver(userObserver);
+                subject.setMessage("Hello! First, you need to log into the system!");
+                subject.removeObserver(userObserver);
                 userManager.register();
                 loggedIn=true;
             }
@@ -98,7 +104,9 @@ public class Facade{
     public void logOut() {
         loggedOut=true;
         loggedIn=false;
-        System.out.println("You are logged out. Goodbye!\n");
+        subject.addObserver(userObserver);
+        subject.setMessage("You are logged out. Goodbye!");
+        subject.removeObserver(userObserver);
     }
     public void showMenu(){
         System.out.println("===Kazakh cuisine===");
@@ -117,7 +125,7 @@ public class Facade{
 
     public void orderDishes(){
         System.out.println("===Choose Dishes===");
-        System.out.println("1.Kazakh Cuisine\n2.ItalianSubject Cuisine\n3.Korean Cuisine\n0.Exit\nChoose:");
+        System.out.println("1.Kazakh Cuisine\n2.Italian Cuisine\n3.Korean Cuisine\n0.Exit\nChoose:");
         int cuisine=choice.nextInt();
         switch(cuisine) {
             case 1:
@@ -136,29 +144,23 @@ public class Facade{
         }
     }
 
-    public void kazakhMenu(){
+    public void kazakhMenu() {
         System.out.println("===Choose Dishes===");
         System.out.println("1.Beshbarmak\n2.Mantas\n3.Quyrdak\nChoose:");
-        int dishChoice=choice.nextInt();
-        switch(dishChoice) {
+        int dishChoice = choice.nextInt();
+        switch (dishChoice) {
             case 1:
                 processDish(new Beshbarmak());
-                dish.addObserver(order);
-                dish.setMessage("Please wait 1 hour for the order to arrive.");
-                 break;
+                break;
             case 2:
                 processDish(new Mantas());
-                dish.addObserver(order);
-                dish.setMessage("Please wait 55 minutes for the order to arrive.");
                 break;
             case 3:
                 processDish(new Quyrdaq());
-                dish.addObserver(order);
-                dish.setMessage("Please wait 40 minutes for the order to arrive.");
+                break;
             default:
                 System.out.println("Invalid choice");
         }
-
     }
     public void italianMenu(){
         System.out.println("===Choose Dishes===");
@@ -241,18 +243,19 @@ public class Facade{
         for (Dish orderDish : orderDishes) {
             System.out.println(orderDish.dishName() + " " + orderDish.getDishPrice());
         }
-        for (Dish orderDrinks : orderDishes) {
-            System.out.println(orderDrinks.dishName() + " " + orderDrinks.getDishPrice());
+        for (Dish orderDrink : orderDrinks) {
+            System.out.println(orderDrink.dishName() + " " + orderDrink.getDishPrice());
         }
         System.out.println("Total Price: " + totalPrice);
     }
 
     private void processDish(Dish newDish) {
         dish = newDish;
-        dish.addObserver(order);
+        subject.addObserver(orderObserver);
         totalPrice += dish.getDishPrice();
-        dish.setMessage("You ordered " + dish.dishName() + ". Bon appetit!");
-        dish.setMessage("Please wait 55-65 minutes for the order to arrive.");
+        subject.setMessage("You ordered " + dish.dishName() + ". Bon appetit!");
+        subject.setMessage("Please wait 55-65 minutes for the order to arrive.");
+        subject.removeObserver(orderObserver);
         userChoice();
         orderDishes.add(dish);
         orderDishes();
@@ -260,10 +263,11 @@ public class Facade{
 
     private void processDrinks(Dish newDrink) {
         dish = newDrink;
-        dish.addObserver(order);
+        subject.addObserver(orderObserver);
         totalPrice += dish.getDishPrice();
-        dish.setMessage("You ordered " + dish.dishName() + ".");
-        dish.setMessage("Please wait 10-15 minutes for the order to arrive.");
+        subject.setMessage("You ordered " + dish.dishName() + ".");
+        subject.setMessage("Please wait 10-15 minutes for the order to arrive.");
+        subject.removeObserver(orderObserver);
         orderDrinks.add(dish);
     }
 
@@ -286,19 +290,20 @@ public class Facade{
         switch(extrasChoice) {
             case 1:
                 dish= new BreadDecorator(dish);
-                totalPrice += dish.getDishPrice();
                 break;
             case 2:
                 dish = new SaladDecorator(dish);
-                totalPrice += dish.getDishPrice();
                 break;
             case 3:
                 dish = new SauceDecorator(dish);
-                totalPrice += dish.getDishPrice();
                 break;
             default:
                 System.out.println("Invalid choice");
         }
+        totalPrice += dish.getDishPrice();
+        subject.addObserver(orderObserver);
+        subject.setMessage("You added extra " + dish.dishName() + ".");
+        subject.removeObserver(orderObserver);
     }
 }
 

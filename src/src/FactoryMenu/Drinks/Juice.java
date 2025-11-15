@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Juice implements FactoryMenu.Dish {
+public class Juice implements FactoryMenu.Dish, Subject {
     private final List<Observer> observers=new ArrayList<>();
     private String message="";
     int price=500;
