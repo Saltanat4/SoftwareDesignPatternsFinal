@@ -220,26 +220,6 @@ public class Facade{
                 System.out.println("Invalid choice");
         }
     }
-    public int playGuessingGame(int totalPrice) {
-        Random random = new Random();
-        int secret = random.nextInt(100)+1;
-
-        System.out.println("=== Mini Game: Guess the Number ===");
-        System.out.println("Guess a number between 1 and 100:");
-        int userGuess = choice.nextInt();
-
-        if (userGuess == secret) {
-            System.out.println("🎉 Congratulations! You guessed the correct number!");
-            int discounted = (int)(totalPrice * 0.9);
-            System.out.println("You get 10% discount! New total: " + discounted);
-            return discounted;
-        } else {
-            System.out.println("Wrong! The correct number was: " + secret);
-            System.out.println("No discount this time 😢");
-            return totalPrice;
-        }
-    }
-
     public void payOrder(){
         System.out.println("Do you want to play a mini game for 10% discount?");
         System.out.println("1.Yes\n2.No");
