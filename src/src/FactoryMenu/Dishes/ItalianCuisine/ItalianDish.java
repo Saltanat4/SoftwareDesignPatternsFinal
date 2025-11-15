@@ -1,8 +1,8 @@
 package FactoryMenu.Dishes.ItalianCuisine;
 
-import FactoryMenu.Dishes.Dish;
-import FactoryMenu.Dishes.DishFactory;
-import FactoryMenu.Dishes.DishCategory;
+import FactoryMenu.Dish;
+import FactoryMenu.DishFactory;
+import FactoryMenu.DishCategory;
 
 import java.util.ArrayList;
 
@@ -23,11 +23,11 @@ public class ItalianDish implements DishFactory {
         dishes.add(new Risotto());
     }
     public ArrayList<Dish> getDishes() {
-        System.out.print("Italian Dishes: ");
+        System.out.print("ItalianSubject Dishes: ");
         return dishes;
     }
     public void displayDishes() {
-        System.out.println("Italian Dishes:");
+        System.out.println("ItalianSubject Dishes:");
         dishes.forEach(dish -> System.out.println(" - " + dish.dishName() + " : " + dish.getDishPrice() + "₸"));
     }
 }

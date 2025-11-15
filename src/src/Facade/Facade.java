@@ -1,70 +1,317 @@
 package Facade;
 
-import FactoryMenu.Dishes.*;
-import FactoryMenu.Dishes.Calculate;
-import FactoryMenu.ShowAllMenu;
-import Builder.*;
+import FactoryMenu.*;
+import FactoryMenu.Dishes.KazakhCuisine.*;
+import FactoryMenu.Dishes.ItalianCuisine.*;
+import FactoryMenu.Dishes.KoreanCuisine.*;
+import FactoryMenu.Drinks.*;
+import Observer.*;
+import Strategy.*;
+import Decorator.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class Facade {
-    boolean running=true;
-    String currentUser=null;
-    DishCreator dishCreator=new DishCreator();
-    UserManager userManager=new UserManager(new Scanner(System.in));
-    ShowAllMenu showAllMenu=new ShowAllMenu();
 
-    boolean ifUser=false;
-    public void userInput(){
-        while(!ifUser){
-        System.out.println("1.Registration\n2.LogIn");
-        int userChoice= new Scanner(System.in).nextInt();
-        switch(userChoice){
-            case 1:
+public class Facade{
+    private final List<Dish> orderDishes=new ArrayList<>();
+    private final List<Dish> orderDrinks=new ArrayList<>();
+    private final KazakhDish kazakhDishes=new KazakhDish();
+    private final ItalianDish italianDishes=new ItalianDish();
+    private final KoreanDish koreanDishes=new KoreanDish();
+    private final DrinkCreator drinks=new DrinkCreator();
+    private final PaymentContext cardPayment=new PaymentContext(new CardPayment());
+    private final PaymentContext cashPayment=new PaymentContext(new CashPayment());
+    private final PaymentContext qrPayment=new PaymentContext(new QRPayment());
+    private Dish dish;
+
+    orderObserver order =new orderObserver();
+    public String message;
+
+    UserManager userManager=new UserManager();
+    public boolean loggedIn=false;
+    public boolean loggedOut=false;
+    public boolean running=true;
+    public int totalPrice=0;
+    Scanner choice=new Scanner(System.in);
+
+    public void mainMenu() {
+        while (running) {
+            if (loggedIn && !loggedOut) {
+                System.out.println("===Pick Me Restaurant===");
+                System.out.println("1.Show menu");
+                System.out.println("2.Order dishes");
+                System.out.println("3.Order drinks");
+                System.out.println("4.Show ordered dishes");
+                System.out.println("5.Pay order");
+                System.out.println("6.Log out");
+                System.out.println("7.Add new user");
+                System.out.println("0.Exit");
+                System.out.println("Select an option:");
+                switch (choice.nextInt()) {
+                    case 1:
+                        showMenu();
+                        break;
+                    case 2:
+                        orderDishes();
+                        break;
+                    case 3:
+                        orderDrinks();
+                        break;
+                    case 4:
+                        showOrderedDishes();
+                        break;
+                    case 5:
+                        payOrder();
+                        break;
+                    case 6:
+                        logOut();
+                        break;
+                    case 7:
+                        userManager.register();
+                    case 0:
+                        running = false;
+                        loggedOut=true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice");
+                }
+            }
+            else if(loggedOut) {
+                System.out.println("You are not logged in!");
+                userManager.login();
+                loggedOut=false;
+                loggedIn=true;
+            }
+            else{
+                System.out.println("\nHello! First, you need to log into the system!");
                 userManager.register();
+                loggedIn=true;
+            }
+        }
+    }
+
+    public void logOut() {
+        loggedOut=true;
+        loggedIn=false;
+        System.out.println("You are logged out. Goodbye!\n");
+    }
+    public void showMenu(){
+        System.out.println("===Kazakh cuisine===");
+        kazakhDishes.setKazakhDish();
+        kazakhDishes.displayDishes();
+        System.out.println("===ItalianSubject cuisine===");
+        italianDishes.setDishes();
+        italianDishes.displayDishes();
+        System.out.println("===Korean cuisine===");
+        koreanDishes.setDishes();
+        koreanDishes.displayDishes();
+        System.out.println("===Drinks===");
+        drinks.setDishes();
+        drinks.displayDishes();
+    }
+
+    public void orderDishes(){
+        System.out.println("===Choose Dishes===");
+        System.out.println("1.Kazakh Cuisine\n2.ItalianSubject Cuisine\n3.Korean Cuisine\n0.Exit\nChoose:");
+        int cuisine=choice.nextInt();
+        switch(cuisine) {
+            case 1:
+                kazakhMenu();
                 break;
             case 2:
-                boolean ok = userManager.login();
-                if(ok){
-                    System.out.println("Write your session name!");
-                    currentUser=new Scanner(System.in).nextLine();
-                    ifUser=true;
-                }
+                italianMenu();
                 break;
-        default:
-            System.out.println("Invalid choice\n");
-            break;}
+            case 3:
+                koreanMenu();
+                break;
+            case 0:
+                mainMenu();
+            default:
+                System.out.println("Invalid choice");
         }
     }
-    public void mainMenu() {
-        userInput();
-        while(running && ifUser){
-            System.out.println("=====PICK ME RESTAURANT=====" +
-                    "\nWelcome to our restaurant!");
-            System.out.println("1.Show all menu");
-            System.out.println("2.Order dishes");
-            System.out.println("3.Pay order");
-            System.out.println("0.Exit");
-            System.out.println("Choose your choice:");
-            int mainMenuChoice = new Scanner(System.in).nextInt();
-            switch (mainMenuChoice) {
-                case 1:
-                    showAllMenu.showMenu();
-                    break;
-                case 2:
-                    dishCreator.cuisineMenu();
-                    dishCreator.totalCheck();
-                    break;
-                case 3:
-                    dishCreator.totalCheck();
-                    break;
-                case 0:
-                    running=false;
-                    break;
-                default:
-                    System.out.println("Invalid choice.");
-            }
 
+    public void kazakhMenu(){
+        System.out.println("===Choose Dishes===");
+        System.out.println("1.Beshbarmak\n2.Mantas\n3.Quyrdak\nChoose:");
+        int dishChoice=choice.nextInt();
+        switch(dishChoice) {
+            case 1:
+                dish=new Beshbarmak();
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            case 2:
+                dish=new Mantas();
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered"+dish.dishName()+".Bon appetit!");
+                break;
+            case 3:
+                dish=new Quyrdaq();
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+        userChoice();
+        orderDishes.add(dish);
+        orderDishes();
+    }
+    public void italianMenu(){
+        System.out.println("===Choose Dishes===");
+        System.out.println("1.Lasagna\n2.Pasta\n3.Risotto\nChoose:");
+        int dishChoice=choice.nextInt();
+        switch(dishChoice) {
+            case 1:
+                dish=new Lasagna();
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            case 2:
+                dish=new Pasta();
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            case 3:
+                dish=new Risotto();
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+        userChoice();
+        orderDishes.add(dish);
+        orderDishes();
+    }
+    public void koreanMenu(){
+        System.out.println("===Choose Dishes===");
+        System.out.println("1.Ramen\n2.Sushi\n3.Tteokpokki\nChoose:");
+        int dishChoice=choice.nextInt();
+        switch(dishChoice) {
+            case 1:
+                dish=new Ramen();
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            case 2:
+                dish=new Tteokpokki();
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            case 3:
+                dish=new Sushi();
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+        userChoice();
+        orderDishes.add(dish);
+        orderDishes();
+    }
+
+    public void orderDrinks(){
+        System.out.println("===Choose Drinks===");
+        System.out.println("1.Water\n2.Juice\n3.Lemonade\nChoose:");
+        int drinkChoice=choice.nextInt();
+        switch(drinkChoice) {
+            case 1:
+                dish=new Water();
+                orderDrinks.add(dish);
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            case 2:
+                dish=new Juice();
+                orderDrinks.add(dish);
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            case 3:
+                dish=new Lemonade();
+                orderDrinks.add(dish);
+                totalPrice+=dish.getDishPrice();
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                break;
+            default:
+                System.out.println("Invalid choice");
         }
     }
+
+    public void payOrder(){
+        System.out.println("Choose how to pay order:");
+        System.out.println("1.Card\n2.Cash\n3.Qr\nChoose:");
+        int orderChoice=choice.nextInt();
+        switch(orderChoice) {
+            case 1:
+                cardPayment.executeStrategy(totalPrice);
+                break;
+            case 2:
+                cashPayment.executeStrategy(totalPrice);
+                break;
+            case 3:
+                qrPayment.executeStrategy(totalPrice);
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+    }
+
+    public void showOrderedDishes(){
+        for (Dish orderDish : orderDishes) {
+            System.out.println(orderDish.dishName() + " " + orderDish.getDishPrice());
+        }
+        for (Dish orderDrink : orderDrinks) {
+            System.out.println(orderDrink.dishName() + " " + orderDrink.getDishPrice());
+        }
+    }
+
+    public void userChoice(){
+        System.out.println("Do you want add extras?\n1.Yes\n2.No\nChoose:");
+        int addExtras=choice.nextInt();
+        switch(addExtras) {
+            case 1:
+                addExtras();
+                break;
+            case 2:
+                break;
+        }
+    }
+
+    public void addExtras(){
+        System.out.println("===Choose Extras===");
+        System.out.println("1.Bread\n2.Salad\n3.Sauce\nChoose:");
+        int extrasChoice=choice.nextInt();
+        switch(extrasChoice) {
+            case 1:
+                dish= new BreadDecorator(dish);
+                break;
+            case 2:
+                dish = new SaladDecorator(dish);
+                break;
+            case 3:
+                dish = new SauceDecorator(dish);
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+    }
+
 }

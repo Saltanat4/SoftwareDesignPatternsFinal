@@ -1,4 +1,4 @@
-package FactoryMenu.Dishes;
+package FactoryMenu;
 
 public enum DishCategory {
     BESHBARMAK, MANTAS, QUYRDAQ,

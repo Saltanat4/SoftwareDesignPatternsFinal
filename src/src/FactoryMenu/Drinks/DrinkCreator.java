@@ -1,14 +1,16 @@
-package FactoryMenu.Dishes.Drinks;
+package FactoryMenu.Drinks;
 
-import FactoryMenu.Dishes.Dish;
-import FactoryMenu.Dishes.DishCategory;
-import FactoryMenu.Dishes.DishFactory;
+import FactoryMenu.Dish;
+import FactoryMenu.DishCategory;
+import FactoryMenu.DishFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DrinkCreator implements DishFactory {
     ArrayList<Dish> dishes = new ArrayList<>();
+
+
     @Override
     public Dish createDish(DishCategory dish){
         return switch (dish){
