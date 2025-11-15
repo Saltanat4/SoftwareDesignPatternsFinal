@@ -8,6 +8,6 @@ public class orderObserver implements Observer {
         order();
     }
     public void order() {
-        System.out.println(message);
+        System.out.println("[MESSAGE] "+message);
     }
 }

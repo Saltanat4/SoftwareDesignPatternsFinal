@@ -26,6 +26,8 @@ public class Facade{
     private final PaymentContext qrPayment=new PaymentContext(new QRPayment());
     private Dish dish;
 
+    private final ArrayList<Dish> dishes=new ArrayList<>();
+
     orderObserver order =new orderObserver();
     public String message;
 
@@ -70,6 +72,7 @@ public class Facade{
                         break;
                     case 7:
                         userManager.register();
+                        mainMenu();
                     case 0:
                         running = false;
                         loggedOut=true;
@@ -101,7 +104,7 @@ public class Facade{
         System.out.println("===Kazakh cuisine===");
         kazakhDishes.setKazakhDish();
         kazakhDishes.displayDishes();
-        System.out.println("===ItalianSubject cuisine===");
+        System.out.println("===Italian cuisine===");
         italianDishes.setDishes();
         italianDishes.displayDishes();
         System.out.println("===Korean cuisine===");
@@ -139,29 +142,23 @@ public class Facade{
         int dishChoice=choice.nextInt();
         switch(dishChoice) {
             case 1:
-                dish=new Beshbarmak();
-                totalPrice+=dish.getDishPrice();
+                processDish(new Beshbarmak());
                 dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
-                break;
+                dish.setMessage("Please wait 1 hour for the order to arrive.");
+                 break;
             case 2:
-                dish=new Mantas();
-                totalPrice+=dish.getDishPrice();
+                processDish(new Mantas());
                 dish.addObserver(order);
-                dish.setMessage("You ordered"+dish.dishName()+".Bon appetit!");
+                dish.setMessage("Please wait 55 minutes for the order to arrive.");
                 break;
             case 3:
-                dish=new Quyrdaq();
-                totalPrice+=dish.getDishPrice();
+                processDish(new Quyrdaq());
                 dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
-                break;
+                dish.setMessage("Please wait 40 minutes for the order to arrive.");
             default:
                 System.out.println("Invalid choice");
         }
-        userChoice();
-        orderDishes.add(dish);
-        orderDishes();
+
     }
     public void italianMenu(){
         System.out.println("===Choose Dishes===");
@@ -169,29 +166,18 @@ public class Facade{
         int dishChoice=choice.nextInt();
         switch(dishChoice) {
             case 1:
-                dish=new Lasagna();
-                totalPrice+=dish.getDishPrice();
-                dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                processDish(new Lasagna());
                 break;
             case 2:
-                dish=new Pasta();
-                totalPrice+=dish.getDishPrice();
-                dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                processDish(new Pasta());
                 break;
             case 3:
-                dish=new Risotto();
-                totalPrice+=dish.getDishPrice();
-                dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
-                break;
+                processDish(new Risotto());
+               break;
             default:
                 System.out.println("Invalid choice");
         }
-        userChoice();
-        orderDishes.add(dish);
-        orderDishes();
+
     }
     public void koreanMenu(){
         System.out.println("===Choose Dishes===");
@@ -199,29 +185,18 @@ public class Facade{
         int dishChoice=choice.nextInt();
         switch(dishChoice) {
             case 1:
-                dish=new Ramen();
-                totalPrice+=dish.getDishPrice();
-                dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                processDish(new Ramen());
                 break;
             case 2:
-                dish=new Tteokpokki();
-                totalPrice+=dish.getDishPrice();
-                dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                processDish(new Sushi());
                 break;
             case 3:
-                dish=new Sushi();
-                totalPrice+=dish.getDishPrice();
-                dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                processDish(new Tteokpokki());
                 break;
             default:
                 System.out.println("Invalid choice");
         }
-        userChoice();
-        orderDishes.add(dish);
-        orderDishes();
+
     }
 
     public void orderDrinks(){
@@ -230,25 +205,13 @@ public class Facade{
         int drinkChoice=choice.nextInt();
         switch(drinkChoice) {
             case 1:
-                dish=new Water();
-                orderDrinks.add(dish);
-                totalPrice+=dish.getDishPrice();
-                dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                processDrinks(new Water());
                 break;
             case 2:
-                dish=new Juice();
-                orderDrinks.add(dish);
-                totalPrice+=dish.getDishPrice();
-                dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                processDrinks(new Juice());
                 break;
             case 3:
-                dish=new Lemonade();
-                orderDrinks.add(dish);
-                totalPrice+=dish.getDishPrice();
-                dish.addObserver(order);
-                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
+                processDrinks(new Lemonade());
                 break;
             default:
                 System.out.println("Invalid choice");
@@ -278,9 +241,30 @@ public class Facade{
         for (Dish orderDish : orderDishes) {
             System.out.println(orderDish.dishName() + " " + orderDish.getDishPrice());
         }
-        for (Dish orderDrink : orderDrinks) {
-            System.out.println(orderDrink.dishName() + " " + orderDrink.getDishPrice());
+        for (Dish orderDrinks : orderDishes) {
+            System.out.println(orderDrinks.dishName() + " " + orderDrinks.getDishPrice());
         }
+        System.out.println("Total Price: " + totalPrice);
+    }
+
+    private void processDish(Dish newDish) {
+        dish = newDish;
+        dish.addObserver(order);
+        totalPrice += dish.getDishPrice();
+        dish.setMessage("You ordered " + dish.dishName() + ". Bon appetit!");
+        dish.setMessage("Please wait 55-65 minutes for the order to arrive.");
+        userChoice();
+        orderDishes.add(dish);
+        orderDishes();
+    }
+
+    private void processDrinks(Dish newDrink) {
+        dish = newDrink;
+        dish.addObserver(order);
+        totalPrice += dish.getDishPrice();
+        dish.setMessage("You ordered " + dish.dishName() + ".");
+        dish.setMessage("Please wait 10-15 minutes for the order to arrive.");
+        orderDrinks.add(dish);
     }
 
     public void userChoice(){
@@ -302,16 +286,21 @@ public class Facade{
         switch(extrasChoice) {
             case 1:
                 dish= new BreadDecorator(dish);
+                totalPrice += dish.getDishPrice();
                 break;
             case 2:
                 dish = new SaladDecorator(dish);
+                totalPrice += dish.getDishPrice();
                 break;
             case 3:
                 dish = new SauceDecorator(dish);
+                totalPrice += dish.getDishPrice();
                 break;
             default:
                 System.out.println("Invalid choice");
         }
     }
-
 }
+
+
+
