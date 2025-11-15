@@ -13,7 +13,7 @@ public class Calculate {
         total += dish.getDishPrice();
     }
 
-    public int getDish() {
+    public int getTotal() {
         return total;
     }
 

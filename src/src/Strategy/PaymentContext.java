@@ -9,7 +9,7 @@ public class PaymentContext {
         if (strategy != null) {
             strategy.pay(amount);
         } else {
-            System.out.println("paymentObserver failed!");
+            System.out.println("payment failed!");
         }
     }
 }

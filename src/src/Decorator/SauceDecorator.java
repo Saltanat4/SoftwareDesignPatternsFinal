@@ -3,6 +3,7 @@ import FactoryMenu.Dish;
 import Observer.Observer;
 
 public class SauceDecorator extends DishDecorator {
+    private final int cost = 250;
     public SauceDecorator(Dish dish) {
         super(dish);
     }
@@ -12,7 +13,7 @@ public class SauceDecorator extends DishDecorator {
     }
     @Override
     public int getDishPrice(){
-        return dish.getDishPrice() + 200;
+        return dish.getDishPrice() + cost;
     }
 
 }

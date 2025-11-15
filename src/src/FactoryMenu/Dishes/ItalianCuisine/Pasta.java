@@ -5,7 +5,7 @@ import Observer.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pasta implements Dish{
+public class Pasta implements Dish, Subject {
     private final List<Observer> observers=new ArrayList<>();
     private String message="";
 

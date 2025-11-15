@@ -1,8 +1,14 @@
 package Facade;
+import Observer.*;
 
-public class User {
-    private String name;
-    private String password;
+import java.util.ArrayList;
+import java.util.List;
+
+public class User implements Subject{
+    private final List<Observer> observers=new  ArrayList<>();
+    private String message=" ";
+    private final String name;
+    private final String password;
 
     public User(String name, String password) {
         this.name = name;
@@ -15,5 +21,25 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public void addObserver(Observer observer){
+        observers.add(observer);
+    }
+    @Override
+    public void removeObserver(Observer observer){
+        observers.remove(observer);
+    }
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(message);
+        }
+    }
+    @Override
+    public void setMessage(String message){
+        this.message=message;
+        notifyObservers();
     }
 }
