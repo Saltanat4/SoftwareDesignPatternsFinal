@@ -1,5 +1,6 @@
 package Facade;
 
+import Builder.*;
 import FactoryMenu.*;
 import FactoryMenu.Dishes.KazakhCuisine.*;
 import FactoryMenu.Dishes.ItalianCuisine.*;
@@ -220,6 +221,7 @@ public class Facade{
         }
     }
 
+
     public void payOrder(){
         System.out.println("Choose how to pay order:");
         System.out.println("1.Card\n2.Cash\n3.Qr\nChoose:");
@@ -237,6 +239,8 @@ public class Facade{
             default:
                 System.out.println("Invalid choice");
         }
+        subject.addObserver(orderObserver);
+        subject.setMessage("Your order has arrived!");
     }
 
     public void showOrderedDishes(){
