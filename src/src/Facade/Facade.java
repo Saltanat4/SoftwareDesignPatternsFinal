@@ -5,6 +5,7 @@ import FactoryMenu.Dishes.KazakhCuisine.*;
 import FactoryMenu.Dishes.ItalianCuisine.*;
 import FactoryMenu.Dishes.KoreanCuisine.*;
 import FactoryMenu.Drinks.*;
+import Observer.*;
 import Strategy.*;
 import Decorator.*;
 
@@ -19,69 +20,101 @@ public class Facade{
     private final KazakhDish kazakhDishes=new KazakhDish();
     private final ItalianDish italianDishes=new ItalianDish();
     private final KoreanDish koreanDishes=new KoreanDish();
-    private final DishFactory drinks=new DrinkCreator();
+    private final DrinkCreator drinks=new DrinkCreator();
     private final PaymentContext cardPayment=new PaymentContext(new CardPayment());
     private final PaymentContext cashPayment=new PaymentContext(new CashPayment());
     private final PaymentContext qrPayment=new PaymentContext(new QRPayment());
     private Dish dish;
 
+    orderObserver order =new orderObserver();
+    public String message;
+
+    UserManager userManager=new UserManager();
+    public boolean loggedIn=false;
+    public boolean loggedOut=false;
     public boolean running=true;
     public int totalPrice=0;
     Scanner choice=new Scanner(System.in);
 
-    public void mainMenu(){
-        while(running){
-            System.out.println("===Pick Me Restaurant===");
-            System.out.println("1.Show menu");
-            System.out.println("2.Order dishes");
-            System.out.println("3.Order drinks");
-            System.out.println("4.Show ordered dishes");
-            System.out.println("5.Pay order");
-            System.out.println("0.Exit");
-            System.out.println("Select an option:");
-            switch(choice.nextInt()) {
-                case 1:
-                    showMenu();
-                    break;
-                case 2:
-                    orderDishes();
-                    break;
-                case 3:
-                    orderDrinks();
-                    break;
-                case 4:
-                    showOrderedDishes();
-                    break;
-                case 5:
-                    payOrder();
-                    break;
-                case 0:
-                    running=false;
-                    System.out.println("You are logged out. Goodbye!");
-                    break;
-                default:
-                    System.out.println("Invalid choice");
+    public void mainMenu() {
+        while (running) {
+            if (loggedIn && !loggedOut) {
+                System.out.println("===Pick Me Restaurant===");
+                System.out.println("1.Show menu");
+                System.out.println("2.Order dishes");
+                System.out.println("3.Order drinks");
+                System.out.println("4.Show ordered dishes");
+                System.out.println("5.Pay order");
+                System.out.println("6.Log out");
+                System.out.println("7.Add new user");
+                System.out.println("0.Exit");
+                System.out.println("Select an option:");
+                switch (choice.nextInt()) {
+                    case 1:
+                        showMenu();
+                        break;
+                    case 2:
+                        orderDishes();
+                        break;
+                    case 3:
+                        orderDrinks();
+                        break;
+                    case 4:
+                        showOrderedDishes();
+                        break;
+                    case 5:
+                        payOrder();
+                        break;
+                    case 6:
+                        logOut();
+                        break;
+                    case 7:
+                        userManager.register();
+                    case 0:
+                        running = false;
+                        loggedOut=true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice");
+                }
+            }
+            else if(loggedOut) {
+                System.out.println("You are not logged in!");
+                userManager.login();
+                loggedOut=false;
+                loggedIn=true;
+            }
+            else{
+                System.out.println("\nHello! First, you need to log into the system!");
+                userManager.register();
+                loggedIn=true;
             }
         }
     }
 
+    public void logOut() {
+        loggedOut=true;
+        loggedIn=false;
+        System.out.println("You are logged out. Goodbye!\n");
+    }
     public void showMenu(){
         System.out.println("===Kazakh cuisine===");
         kazakhDishes.setKazakhDish();
         kazakhDishes.displayDishes();
-        System.out.println("===Italian cuisine===");
+        System.out.println("===ItalianSubject cuisine===");
         italianDishes.setDishes();
         italianDishes.displayDishes();
         System.out.println("===Korean cuisine===");
         koreanDishes.setDishes();
         koreanDishes.displayDishes();
         System.out.println("===Drinks===");
+        drinks.setDishes();
         drinks.displayDishes();
     }
 
     public void orderDishes(){
         System.out.println("===Choose Dishes===");
-        System.out.println("1.Kazakh Cuisine\n2.Italian Cuisine\n3.Korean Cuisine\n0.Exit\nChoose:");
+        System.out.println("1.Kazakh Cuisine\n2.ItalianSubject Cuisine\n3.Korean Cuisine\n0.Exit\nChoose:");
         int cuisine=choice.nextInt();
         switch(cuisine) {
             case 1:
@@ -108,17 +141,20 @@ public class Facade{
             case 1:
                 dish=new Beshbarmak();
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".Bon appetit!");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             case 2:
                 dish=new Mantas();
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".Bon appetit!");
+                dish.addObserver(order);
+                dish.setMessage("You ordered"+dish.dishName()+".Bon appetit!");
                 break;
             case 3:
                 dish=new Quyrdaq();
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".Bon appetit!");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             default:
                 System.out.println("Invalid choice");
@@ -135,17 +171,20 @@ public class Facade{
             case 1:
                 dish=new Lasagna();
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".Bon appetit!");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             case 2:
                 dish=new Pasta();
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".Bon appetit!");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             case 3:
                 dish=new Risotto();
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".Bon appetit!");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             default:
                 System.out.println("Invalid choice");
@@ -162,17 +201,20 @@ public class Facade{
             case 1:
                 dish=new Ramen();
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".Bon appetit!");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             case 2:
                 dish=new Tteokpokki();
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".Bon appetit!");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             case 3:
                 dish=new Sushi();
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".Bon appetit!");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             default:
                 System.out.println("Invalid choice");
@@ -191,19 +233,22 @@ public class Facade{
                 dish=new Water();
                 orderDrinks.add(dish);
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             case 2:
                 dish=new Juice();
                 orderDrinks.add(dish);
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             case 3:
                 dish=new Lemonade();
                 orderDrinks.add(dish);
                 totalPrice+=dish.getDishPrice();
-                System.out.println("You ordered "+dish.dishName()+".");
+                dish.addObserver(order);
+                dish.setMessage("You ordered "+dish.dishName()+".Bon appetit!");
                 break;
             default:
                 System.out.println("Invalid choice");
@@ -230,9 +275,12 @@ public class Facade{
     }
 
     public void showOrderedDishes(){
-        orderDishes.forEach(dish->{
-            System.out.println(dish.dishName()+" "+dish.getDishPrice());
-        });
+        for (Dish orderDish : orderDishes) {
+            System.out.println(orderDish.dishName() + " " + orderDish.getDishPrice());
+        }
+        for (Dish orderDrink : orderDrinks) {
+            System.out.println(orderDrink.dishName() + " " + orderDrink.getDishPrice());
+        }
     }
 
     public void userChoice(){

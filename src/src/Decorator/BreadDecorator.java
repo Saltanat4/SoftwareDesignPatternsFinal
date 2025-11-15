@@ -1,7 +1,8 @@
 package Decorator;
 import FactoryMenu.Dish;
+import Observer.*;
 
-public class BreadDecorator extends DishDecorator {
+public  class BreadDecorator extends DishDecorator {
     public BreadDecorator(Dish dish) {
         super(dish);
     }
@@ -13,4 +14,5 @@ public class BreadDecorator extends DishDecorator {
     public int getDishPrice() {
         return super.dish.getDishPrice() + 200;
     }
+
 }

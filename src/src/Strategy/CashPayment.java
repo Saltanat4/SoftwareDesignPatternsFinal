@@ -1,7 +1,5 @@
 package Strategy;
 
-import Observer.Payment;
-
 public class CashPayment implements PaymentStrategy {
     @Override
     public void pay(int amount){
