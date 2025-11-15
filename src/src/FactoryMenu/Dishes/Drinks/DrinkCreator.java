@@ -1,4 +1,4 @@
-package FactoryMenu.Drinks;
+package FactoryMenu.Dishes.Drinks;
 
 import FactoryMenu.Dish;
 import FactoryMenu.DishCategory;

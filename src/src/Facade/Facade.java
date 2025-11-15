@@ -1,15 +1,17 @@
 package Facade;
 
-import Builder.*;
 import FactoryMenu.*;
+import FactoryMenu.Dishes.Drinks.DrinkCreator;
+import FactoryMenu.Dishes.Drinks.*;
 import FactoryMenu.Dishes.KazakhCuisine.*;
 import FactoryMenu.Dishes.ItalianCuisine.*;
 import FactoryMenu.Dishes.KoreanCuisine.*;
-import FactoryMenu.Drinks.*;
 import Observer.*;
 import Strategy.*;
 import Decorator.*;
+import Builder.*;
 
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,16 +19,14 @@ import java.util.Scanner;
 public class Facade{
     private final List<Dish> orderDishes=new ArrayList<>();
     private final List<Dish> orderDrinks=new ArrayList<>();
-
     private final KazakhDish kazakhDishes=new KazakhDish();
     private final ItalianDish italianDishes=new ItalianDish();
     private final KoreanDish koreanDishes=new KoreanDish();
     private final DrinkCreator drinks=new DrinkCreator();
-
     private final PaymentContext cardPayment=new PaymentContext(new CardPayment());
     private final PaymentContext cashPayment=new PaymentContext(new CashPayment());
     private final PaymentContext qrPayment=new PaymentContext(new QRPayment());
-
+    private final Order.OrderBuilder orderBuilder = new Order.OrderBuilder();
     private Dish dish;
 
     private final Subject subject=new Beshbarmak();
@@ -47,11 +47,10 @@ public class Facade{
                 System.out.println("===Pick Me Restaurant===");
                 System.out.println("1.Show menu");
                 System.out.println("2.Order dishes");
-                System.out.println("3.Order drinks");
-                System.out.println("4.Show ordered dishes");
-                System.out.println("5.Pay orderObserver");
-                System.out.println("6.Log out");
-                System.out.println("7.Add new user");
+                System.out.println("3.Show ordered dishes");
+                System.out.println("4.Pay orderObserver");
+                System.out.println("5.Log out");
+                System.out.println("6.Add new user");
                 System.out.println("0.Exit");
                 System.out.println("Select an option:");
                 switch (choice.nextInt()) {
@@ -62,18 +61,15 @@ public class Facade{
                         orderDishes();
                         break;
                     case 3:
-                        orderDrinks();
-                        break;
-                    case 4:
                         showOrderedDishes();
                         break;
-                    case 5:
+                    case 4:
                         payOrder();
                         break;
-                    case 6:
+                    case 5:
                         logOut();
                         break;
-                    case 7:
+                    case 6:
                         userManager.register();
                         subject.addObserver(userObserver);
                         subject.setMessage("Added new user account!");
@@ -138,6 +134,9 @@ public class Facade{
             case 3:
                 koreanMenu();
                 break;
+            case 4:
+                orderDrinks();
+                break;
             case 0:
                 mainMenu();
             default:
@@ -186,6 +185,7 @@ public class Facade{
         System.out.println("===Choose Dishes===");
         System.out.println("1.Ramen\n2.Sushi\n3.Tteokpokki\nChoose:");
         int dishChoice=choice.nextInt();
+        ArrayList<KoreanDish> koreanDishes=new ArrayList<>();
         switch(dishChoice) {
             case 1:
                 processDish(new Ramen());
@@ -208,39 +208,59 @@ public class Facade{
         int drinkChoice=choice.nextInt();
         switch(drinkChoice) {
             case 1:
-                processDrinks(new Water());
+                processDish(new Water());
                 break;
             case 2:
-                processDrinks(new Juice());
+                processDish(new Juice());
                 break;
             case 3:
-                processDrinks(new Lemonade());
+                processDish(new Lemonade());
                 break;
             default:
                 System.out.println("Invalid choice");
         }
     }
+    public int playGuessingGame(int totalPrice) {
+        Random random = new Random();
+        int secret = random.nextInt(100)+1;
 
+        System.out.println("=== Mini Game: Guess the Number ===");
+        System.out.println("Guess a number between 1 and 100:");
+        int userGuess = choice.nextInt();
+
+        if (userGuess == secret) {
+            System.out.println("🎉 Congratulations! You guessed the correct number!");
+            int discounted = (int)(totalPrice * 0.9);
+            System.out.println("You get 10% discount! New total: " + discounted);
+            return discounted;
+        } else {
+            System.out.println("Wrong! The correct number was: " + secret);
+            System.out.println("No discount this time 😢");
+            return totalPrice;
+        }
+    }
 
     public void payOrder(){
+        System.out.println("Do you want to play a mini game for 10% discount?");
+        System.out.println("1.Yes\n2.No");
+
+        int gameChoice = choice.nextInt();
+
+        if (gameChoice == 1) {
+            orderBuilder.addMiniGame(new MiniGame());
+        }
+        Order finalOrder = orderBuilder.build();
+        int total = finalOrder.getTotalPrice();
+
         System.out.println("Choose how to pay order:");
         System.out.println("1.Card\n2.Cash\n3.Qr\nChoose:");
         int orderChoice=choice.nextInt();
         switch(orderChoice) {
-            case 1:
-                cardPayment.executeStrategy(totalPrice);
-                break;
-            case 2:
-                cashPayment.executeStrategy(totalPrice);
-                break;
-            case 3:
-                qrPayment.executeStrategy(totalPrice);
-                break;
-            default:
-                System.out.println("Invalid choice");
+            case 1->cardPayment.executeStrategy(total);
+            case 2->cashPayment.executeStrategy(total);
+            case 3->qrPayment.executeStrategy(total);
+            default->System.out.println("Invalid choice");
         }
-        subject.addObserver(orderObserver);
-        subject.setMessage("Your order has arrived!");
     }
 
     public void showOrderedDishes(){
@@ -261,18 +281,9 @@ public class Facade{
         subject.setMessage("Please wait 55-65 minutes for the order to arrive.");
         subject.removeObserver(orderObserver);
         userChoice();
+        orderBuilder.addDish(dish);
         orderDishes.add(dish);
         orderDishes();
-    }
-
-    private void processDrinks(Dish newDrink) {
-        dish = newDrink;
-        subject.addObserver(orderObserver);
-        totalPrice += dish.getDishPrice();
-        subject.setMessage("You ordered " + dish.dishName() + ".");
-        subject.setMessage("Please wait 10-15 minutes for the order to arrive.");
-        subject.removeObserver(orderObserver);
-        orderDrinks.add(dish);
     }
 
     public void userChoice(){

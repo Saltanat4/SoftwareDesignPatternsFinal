@@ -1,11 +1,12 @@
-package FactoryMenu.Drinks;
+package FactoryMenu.Dishes.Drinks;
 
 import Observer.*;
+import FactoryMenu.Dish;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lemonade implements FactoryMenu.Dish, Subject {
+public class Lemonade implements Dish, Subject {
     private final List<Observer> observers=new ArrayList<>();
     private String message="";
     int price=700;

@@ -6,58 +6,44 @@ import java.util.ArrayList;
 
 public class Order {
     private final List<Dish> dishes;
-    private final String customerName;
-    private final double discount;
     private final int totalPrice;
+    boolean discountApplied;
 
-    @Override
-    public String toString() {
-        System.out.println("=== Discount<>Check ===");
-        System.out.println("Customer: " + customerName);
-        System.out.println("Dishes:");
-        for (Dish dish : dishes) {
-            System.out.println(" - " + dish.dishName() + " : " + dish.getDishPrice());
-        }
-        System.out.println("Discount: " + discount * 100 + "%");
-        System.out.println("Total Price: " + totalPrice);
-        return " ";
+    private Order(List<Dish> dishes, int totalPrice, boolean discountApplied) {
+        this.dishes = dishes;
+        this.totalPrice = totalPrice;
+        this.discountApplied = discountApplied;
     }
-    private Order(OrderBuilder builder) {
-        this.dishes = builder.dishes;
-        this.customerName = builder.customerName;
-        this.discount = builder.discount;
-        this.totalPrice = builder.totalPrice;
+
+    public boolean isDiscountApplied() {
+        return discountApplied;
     }
+    public List<Dish> getDishes() { return dishes; }
+    public int getTotalPrice() { return totalPrice; }
 
     public static class OrderBuilder {
         private List<Dish> dishes = new ArrayList<>();
-        private String customerName;
-        private double discount = 0;
         private int totalPrice = 0;
+        private boolean miniGamePlayed = false;
+        private boolean miniGameWon = false;
 
-        public OrderBuilder addSetDish(Dish dish) {
-            this.dishes.add(dish);
+
+        public OrderBuilder addMiniGame(MiniGame game) {
+            miniGamePlayed = true;
+            miniGameWon = game.play();
+
+            if (miniGameWon) {
+                totalPrice = (int)(totalPrice * 0.9);
+            }
             return this;
         }
-
-        public OrderBuilder setCustomerName(String name) {
-            this.customerName = name;
+        public OrderBuilder addDish(Dish dish) {
+            dishes.add(dish);
+            totalPrice += dish.getDishPrice();
             return this;
         }
-        public OrderBuilder setTotalPrice(int price) {
-            this.totalPrice = price;
-            return this;
-        }
-
-        public OrderBuilder setDiscount(double discount) {
-            this.discount = discount;
-            return this;
-        }
-
         public Order build() {
-            System.out.println("check with discount: ");
-            totalPrice = (int) (totalPrice - totalPrice * discount);
-            return new Order(this);
+            return new Order(dishes,totalPrice, miniGameWon);
         }
     }
 }
