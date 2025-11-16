@@ -1,0 +1,247 @@
+Index: src/src/Facade/Facade.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Facade;\r\n\r\nimport FactoryMenu.*;\r\nimport FactoryMenu.Dishes.KazakhCuisine.*;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Scanner;\r\n\r\npublic class Facade{\r\n    private List<Dish> orderedDishes=new ArrayList<>();\r\n    private final Subject subject=new Beshbarmak();\r\n    userObserver userObserver=new userObserver();\r\n    public String message;\r\n\r\n    UserManager userManager=new UserManager();\r\n    public boolean loggedIn=false;\r\n    public boolean loggedOut=false;\r\n    public boolean running=true;\r\n    public int totalPrice=0;\r\n    Scanner choice=new Scanner(System.in);\r\n\r\n    public void mainMenu() {\r\n        while (running) {\r\n            if (loggedIn && !loggedOut) {\r\n                System.out.println(\"===Pick Me Restaurant===\");\r\n                System.out.println(\"1.Show menu\");\r\n                System.out.println(\"2.Order dishes\");\r\n                System.out.println(\"3.Show ordered dishes\");\r\n                System.out.println(\"4.Pay orderObserver\");\r\n                System.out.println(\"5.Log out\");\r\n                System.out.println(\"6.Add new user\");\r\n                System.out.println(\"0.Exit\");\r\n                System.out.println(\"Select an option:\");\r\n                switch (choice.nextInt()) {\r\n                    case 1:\r\n                        MenuService menuService=new MenuService();\r\n                        menuService.showMenu();\r\n                        break;\r\n                    case 2:\r\n                        OrderService orderService=new OrderService();\r\n                        orderService.orderDishes();\r\n                        totalPrice=orderService.getTotalPrice();\r\n                        orderedDishes=orderService.getOrderDishes();\r\n                        break;\r\n                    case 3:\r\n                        ShowOrderService showOrderService=new ShowOrderService();\r\n                        showOrderService.showOrderedDishes(orderedDishes, totalPrice);\r\n                        break;\r\n                    case 4:\r\n                        PaymentService paymentService=new PaymentService();\r\n                        paymentService.payOrder();\r\n                        break;\r\n                    case 5:\r\n                        logOut();\r\n                        break;\r\n                    case 6:\r\n                        userManager.register();\r\n                        subject.addObserver(userObserver);\r\n                        subject.setMessage(\"Added new user account!\");\r\n                        subject.removeObserver(userObserver);\r\n                        mainMenu();\r\n                    case 0:\r\n                        running = false;\r\n                        loggedOut=true;\r\n                        break;\r\n                    default:\r\n                        System.out.println(\"Invalid choice\");\r\n                }\r\n            }\r\n            else if(loggedOut) {\r\n                userManager.login();\r\n                loggedOut=false;\r\n                loggedIn=true;\r\n            }\r\n            else{\r\n                subject.addObserver(userObserver);\r\n                subject.setMessage(\"Hello! First, you need to log into the system!\");\r\n                subject.removeObserver(userObserver);\r\n                userManager.register();\r\n                loggedIn=true;\r\n            }\r\n        }\r\n    }\r\n\r\n    public void logOut() {\r\n        loggedOut=true;\r\n        loggedIn=false;\r\n        subject.addObserver(userObserver);\r\n        subject.setMessage(\"You are logged out. Goodbye!\");\r\n        subject.removeObserver(userObserver);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/Facade/Facade.java b/src/src/Facade/Facade.java
+--- a/src/src/Facade/Facade.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/Facade/Facade.java	(date 1763308686551)
+@@ -2,7 +2,7 @@
+ 
+ import FactoryMenu.*;
+ import FactoryMenu.Dishes.KazakhCuisine.*;
+-import Observer.*;
++import Observer.UserObserver;
+ 
+ import java.util.ArrayList;
+ import java.util.List;
+@@ -10,9 +10,8 @@
+ 
+ public class Facade{
+     private List<Dish> orderedDishes=new ArrayList<>();
+-    private final Subject subject=new Beshbarmak();
+-    userObserver userObserver=new userObserver();
+-    public String message;
++    private final NotificationService notification=new NotificationService();
++    public UserObserver userObserver=new UserObserver();
+ 
+     UserManager userManager=new UserManager();
+     public boolean loggedIn=false;
+@@ -28,7 +27,7 @@
+                 System.out.println("1.Show menu");
+                 System.out.println("2.Order dishes");
+                 System.out.println("3.Show ordered dishes");
+-                System.out.println("4.Pay orderObserver");
++                System.out.println("4.Pay order");
+                 System.out.println("5.Log out");
+                 System.out.println("6.Add new user");
+                 System.out.println("0.Exit");
+@@ -57,9 +56,7 @@
+                         break;
+                     case 6:
+                         userManager.register();
+-                        subject.addObserver(userObserver);
+-                        subject.setMessage("Added new user account!");
+-                        subject.removeObserver(userObserver);
++                        notification.Notify("Added new user account!", userObserver);
+                         mainMenu();
+                     case 0:
+                         running = false;
+@@ -75,9 +72,7 @@
+                 loggedIn=true;
+             }
+             else{
+-                subject.addObserver(userObserver);
+-                subject.setMessage("Hello! First, you need to log into the system!");
+-                subject.removeObserver(userObserver);
++                notification.Notify("Hello! First, you need to log into the system!", userObserver);
+                 userManager.register();
+                 loggedIn=true;
+             }
+@@ -87,8 +82,7 @@
+     public void logOut() {
+         loggedOut=true;
+         loggedIn=false;
+-        subject.addObserver(userObserver);
+-        subject.setMessage("You are logged out. Goodbye!");
+-        subject.removeObserver(userObserver);
++        notification.Notify("You are logged out. Goodbye!", userObserver);
++
+     }
+ }
+\ No newline at end of file
+Index: src/src/FactoryMenu/Dishes/Drinks/Water.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.Drinks;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\nimport FactoryMenu.Dish;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Water implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=300;\r\n    @Override\r\n    public String dishName(){\r\n        return \"Water\";\r\n    }\r\n    @Override\r\n    public int getDishPrice(){\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/Drinks/Water.java b/src/src/FactoryMenu/Dishes/Drinks/Water.java
+--- a/src/src/FactoryMenu/Dishes/Drinks/Water.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/Drinks/Water.java	(date 1763307013233)
+@@ -1,14 +1,9 @@
+ package FactoryMenu.Dishes.Drinks;
+-import Observer.Subject;
+-import Observer.*;
++
+ import FactoryMenu.Dish;
+ 
+-import java.util.ArrayList;
+-import java.util.List;
+ 
+-public class Water implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
++public class Water implements Dish {
+ 
+     int price=300;
+     @Override
+@@ -24,25 +19,5 @@
+         return dishName();
+     }
+ 
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+ 
+Index: src/src/FactoryMenu/Dishes/Drinks/Lemonade.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.Drinks;\r\n\r\nimport Observer.Subject;\r\nimport Observer.*;\r\nimport FactoryMenu.Dish;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Lemonade implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n    int price=700;\r\n\r\n    @Override\r\n    public String dishName() {\r\n        return \"Lemonade\";\r\n    }\r\n    @Override\r\n    public int getDishPrice() {\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/Drinks/Lemonade.java b/src/src/FactoryMenu/Dishes/Drinks/Lemonade.java
+--- a/src/src/FactoryMenu/Dishes/Drinks/Lemonade.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/Drinks/Lemonade.java	(date 1763307013034)
+@@ -1,15 +1,8 @@
+ package FactoryMenu.Dishes.Drinks;
+ 
+-import Observer.Subject;
+-import Observer.*;
+ import FactoryMenu.Dish;
+ 
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-public class Lemonade implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
++public class Lemonade implements Dish {
+     int price=700;
+ 
+     @Override
+@@ -25,24 +18,4 @@
+         return dishName();
+     }
+ 
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+Index: src/src/Facade/UserManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Facade;\r\n\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Scanner;\r\n\r\npublic class UserManager {\r\n    private final List<User> users = new ArrayList<>();\r\n    private final Scanner sc = new Scanner(System.in);\r\n    private String name;\r\n    private String password;\r\n    public userObserver userObserver=new userObserver();\r\n    private final User user=new User(name,password);\r\n\r\n    public void register() {\r\n        System.out.println(\"===Registering User===\\nPlease enter your name: \");\r\n        name = sc.nextLine();\r\n        System.out.println(\"Password: \");\r\n        password = sc.nextLine();\r\n        while (password.length() < 8) {\r\n            System.out.println(\"Please enter a password that is at least 8 characters long!\");\r\n            password = sc.nextLine();\r\n        }\r\n        User newUser = new User(name, password);\r\n        users.add(newUser);\r\n\r\n        newUser.addObserver(userObserver);\r\n        newUser.setMessage(\"Welcome, \" + name + \" to our online Pick Me restaurant! You are successfully registered!\");\r\n        newUser.removeObserver(userObserver);\r\n    }\r\n\r\n    public void login() {\r\n        System.out.println(\"===Login User===\");\r\n        System.out.println(\"Please enter your name: \");\r\n        String name = sc.nextLine();\r\n        System.out.println(\"Password: \");\r\n        String password = sc.nextLine();\r\n        for (User u : users) {\r\n            if (u.getName().equals(name) && u.getPassword().equals(password)) {\r\n                user.addObserver(userObserver);\r\n                user.setMessage(\"Welcome, \" + name + \" to our online Pick Me restaurant! You are successfully registered!\");\r\n                user.removeObserver(userObserver);\r\n                return;\r\n            } else {\r\n                user.addObserver(userObserver);\r\n                user.setMessage(\"Invalid username or password! Please try again!\");\r\n                user.removeObserver(userObserver);\r\n                login();\r\n            }\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/Facade/UserManager.java b/src/src/Facade/UserManager.java
+--- a/src/src/Facade/UserManager.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/Facade/UserManager.java	(date 1763309031747)
+@@ -9,26 +9,23 @@
+ public class UserManager {
+     private final List<User> users = new ArrayList<>();
+     private final Scanner sc = new Scanner(System.in);
+-    private String name;
+-    private String password;
+-    public userObserver userObserver=new userObserver();
+-    private final User user=new User(name,password);
++
++    public NotificationService notificationService=new NotificationService();
++    public UserObserver userObserver=new UserObserver();
+ 
+     public void register() {
+         System.out.println("===Registering User===\nPlease enter your name: ");
+-        name = sc.nextLine();
+-        System.out.println("Password: ");
+-        password = sc.nextLine();
++        String name = sc.nextLine();
++        System.out.println("Set password: ");
++        String password = sc.nextLine();
+         while (password.length() < 8) {
+             System.out.println("Please enter a password that is at least 8 characters long!");
+             password = sc.nextLine();
+         }
+         User newUser = new User(name, password);
+         users.add(newUser);
++        notificationService.Notify("Welcome, " + name +" to our online Pick Me restaurant! You are successfully registered!", userObserver);
+ 
+-        newUser.addObserver(userObserver);
+-        newUser.setMessage("Welcome, " + name + " to our online Pick Me restaurant! You are successfully registered!");
+-        newUser.removeObserver(userObserver);
+     }
+ 
+     public void login() {
+@@ -37,16 +34,14 @@
+         String name = sc.nextLine();
+         System.out.println("Password: ");
+         String password = sc.nextLine();
+-        for (User u : users) {
+-            if (u.getName().equals(name) && u.getPassword().equals(password)) {
+-                user.addObserver(userObserver);
+-                user.setMessage("Welcome, " + name + " to our online Pick Me restaurant! You are successfully registered!");
+-                user.removeObserver(userObserver);
++        for (User user : users) {
++            if (user.getName().equals(name) && user.getPassword().equals(password)) {
++                notificationService.Notify("Welcome back, " + name + " to our online Pick Me restaurant!", userObserver);
+                 return;
+-            } else {
+-                user.addObserver(userObserver);
+-                user.setMessage("Invalid username or password! Please try again!");
+-                user.removeObserver(userObserver);
++            }
++
++            else {
++                notificationService.Notify("Invalid username or password. Please try again!", userObserver);
+                 login();
+             }
+         }

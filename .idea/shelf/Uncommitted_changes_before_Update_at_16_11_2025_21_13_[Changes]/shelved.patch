@@ -1,0 +1,878 @@
+Index: src/src/Facade/OrderService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Facade;\r\n\r\nimport Builder.*;\r\nimport Decorator.*;\r\nimport FactoryMenu.*;\r\nimport FactoryMenu.Dishes.Drinks.*;\r\nimport FactoryMenu.Dishes.KazakhCuisine.*;\r\nimport FactoryMenu.Dishes.KoreanCuisine.*;\r\nimport FactoryMenu.Dishes.ItalianCuisine.*;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Scanner;\r\n\r\npublic class OrderService {\r\n\r\n    private final Subject subject=new Lasagna();\r\n    orderObserver orderObserver =new orderObserver();\r\n\r\n    private final List<Dish> orderDishes=new ArrayList<>();\r\n    private final Order.OrderBuilder orderBuilder = new Order.OrderBuilder();\r\n    private Dish dish;\r\n\r\n    public int totalPrice=0;\r\n    Scanner choice=new Scanner(System.in);\r\n\r\n    public void orderDishes(){\r\n        System.out.println(\"===Choose Dishes===\");\r\n        System.out.println(\"1.Kazakh Cuisine\\n2.Italian Cuisine\\n3.Korean Cuisine\\n0.Exit\\nChoose:\");\r\n        int cuisine=choice.nextInt();\r\n        switch(cuisine) {\r\n            case 1:\r\n                kazakhMenu();\r\n                break;\r\n            case 2:\r\n                italianMenu();\r\n                break;\r\n            case 3:\r\n                koreanMenu();\r\n                break;\r\n            case 4:\r\n                orderDrinks();\r\n                break;\r\n            case 0:\r\n                break;\r\n            default:\r\n                System.out.println(\"Invalid choice\");\r\n        }\r\n    }\r\n\r\n    public void kazakhMenu() {\r\n        System.out.println(\"===Choose Dishes===\");\r\n        System.out.println(\"1.Beshbarmak\\n2.Mantas\\n3.Quyrdak\\nChoose:\");\r\n        int dishChoice = choice.nextInt();\r\n        switch (dishChoice) {\r\n            case 1:\r\n                processDish(new Beshbarmak());\r\n                break;\r\n            case 2:\r\n                processDish(new Mantas());\r\n                break;\r\n            case 3:\r\n                processDish(new Quyrdaq());\r\n                break;\r\n            default:\r\n                System.out.println(\"Invalid choice\");\r\n        }\r\n    }\r\n    public void italianMenu(){\r\n        System.out.println(\"===Choose Dishes===\");\r\n        System.out.println(\"1.Lasagna\\n2.Pasta\\n3.Risotto\\nChoose:\");\r\n        int dishChoice=choice.nextInt();\r\n        switch(dishChoice) {\r\n            case 1:\r\n                processDish(new Lasagna());\r\n                break;\r\n            case 2:\r\n                processDish(new Pasta());\r\n                break;\r\n            case 3:\r\n                processDish(new Risotto());\r\n                break;\r\n            default:\r\n                System.out.println(\"Invalid choice\");\r\n        }\r\n\r\n    }\r\n    public void koreanMenu(){\r\n        System.out.println(\"===Choose Dishes===\");\r\n        System.out.println(\"1.Ramen\\n2.Sushi\\n3.Tteokpokki\\nChoose:\");\r\n        int dishChoice=choice.nextInt();\r\n        switch(dishChoice) {\r\n            case 1:\r\n                processDish(new Ramen());\r\n                break;\r\n            case 2:\r\n                processDish(new Sushi());\r\n                break;\r\n            case 3:\r\n                processDish(new Tteokpokki());\r\n                break;\r\n            default:\r\n                System.out.println(\"Invalid choice\");\r\n        }\r\n\r\n    }\r\n    public void orderDrinks(){\r\n        System.out.println(\"===Choose Drinks===\");\r\n        System.out.println(\"1.Water\\n2.Juice\\n3.Lemonade\\nChoose:\");\r\n        int drinkChoice=choice.nextInt();\r\n        switch(drinkChoice) {\r\n            case 1:\r\n                processDish(new Water());\r\n                break;\r\n            case 2:\r\n                processDish(new Juice());\r\n                break;\r\n            case 3:\r\n                processDish(new Lemonade());\r\n                break;\r\n            default:\r\n                System.out.println(\"Invalid choice\");\r\n        }\r\n    }\r\n\r\n    private void processDish(Dish newDish) {\r\n        dish = newDish;\r\n        subject.addObserver(orderObserver);\r\n        totalPrice += dish.getDishPrice();\r\n        subject.setMessage(\"You ordered \" + dish.dishName() + \". Bon appetit!\");\r\n        subject.setMessage(\"Please wait 55-65 minutes for the order to arrive.\");\r\n        subject.removeObserver(orderObserver);\r\n        userChoice();\r\n\r\n        //он нужен чтобы в payOrder\r\n        // метод builder мог найти заказанную еду!!!\r\n        orderBuilder.addDish(dish);\r\n        orderDishes.add(dish);\r\n        orderDishes();\r\n    }\r\n\r\n\r\n\r\n    public void userChoice(){\r\n        System.out.println(\"Do you want add extras?\\n1.Yes\\n2.No\\nChoose:\");\r\n        int addExtras=choice.nextInt();\r\n        switch(addExtras) {\r\n            case 1:\r\n                addExtras();\r\n                break;\r\n            case 2:\r\n                break;\r\n        }\r\n    }\r\n\r\n    public void addExtras(){\r\n        System.out.println(\"===Choose Extras===\");\r\n        System.out.println(\"1.Bread\\n2.Salad\\n3.Sauce\\nChoose:\");\r\n        int extrasChoice=choice.nextInt();\r\n        switch(extrasChoice) {\r\n            case 1:\r\n                dish= new BreadDecorator(dish);\r\n                break;\r\n            case 2:\r\n                dish = new SaladDecorator(dish);\r\n                break;\r\n            case 3:\r\n                dish = new SauceDecorator(dish);\r\n                break;\r\n            default:\r\n                System.out.println(\"Invalid choice\");\r\n        }\r\n        totalPrice += dish.getDishPrice();\r\n        subject.addObserver(orderObserver);\r\n        subject.setMessage(\"You added extra \" + dish.dishName() + \".\");\r\n        subject.removeObserver(orderObserver);\r\n    }\r\n\r\n    public List<Dish> getOrderDishes() {\r\n        return orderDishes;\r\n    }\r\n\r\n    public int getTotalPrice(){\r\n        return totalPrice;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/Facade/OrderService.java b/src/src/Facade/OrderService.java
+--- a/src/src/Facade/OrderService.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/Facade/OrderService.java	(date 1763309329096)
+@@ -14,9 +14,8 @@
+ import java.util.Scanner;
+ 
+ public class OrderService {
+-
+-    private final Subject subject=new Lasagna();
+-    orderObserver orderObserver =new orderObserver();
++    NotificationService notification=new NotificationService();
++    OrderObserver orderObserver =new OrderObserver();
+ 
+     private final List<Dish> orderDishes=new ArrayList<>();
+     private final Order.OrderBuilder orderBuilder = new Order.OrderBuilder();
+@@ -30,22 +29,12 @@
+         System.out.println("1.Kazakh Cuisine\n2.Italian Cuisine\n3.Korean Cuisine\n0.Exit\nChoose:");
+         int cuisine=choice.nextInt();
+         switch(cuisine) {
+-            case 1:
+-                kazakhMenu();
+-                break;
+-            case 2:
+-                italianMenu();
+-                break;
+-            case 3:
+-                koreanMenu();
+-                break;
+-            case 4:
+-                orderDrinks();
+-                break;
+-            case 0:
+-                break;
+-            default:
+-                System.out.println("Invalid choice");
++            case 1-> kazakhMenu();
++            case 2-> italianMenu();
++            case 3-> koreanMenu();
++            case 4-> orderDrinks();
++            case 0->{}
++            default -> System.out.println("Invalid choice");
+         }
+     }
+ 
+@@ -54,17 +43,10 @@
+         System.out.println("1.Beshbarmak\n2.Mantas\n3.Quyrdak\nChoose:");
+         int dishChoice = choice.nextInt();
+         switch (dishChoice) {
+-            case 1:
+-                processDish(new Beshbarmak());
+-                break;
+-            case 2:
+-                processDish(new Mantas());
+-                break;
+-            case 3:
+-                processDish(new Quyrdaq());
+-                break;
+-            default:
+-                System.out.println("Invalid choice");
++            case 1-> processDish(new Beshbarmak());
++            case 2-> processDish(new Mantas());
++            case 3-> processDish(new Quyrdaq());
++            default-> System.out.println("Invalid choice");
+         }
+     }
+     public void italianMenu(){
+@@ -72,67 +54,40 @@
+         System.out.println("1.Lasagna\n2.Pasta\n3.Risotto\nChoose:");
+         int dishChoice=choice.nextInt();
+         switch(dishChoice) {
+-            case 1:
+-                processDish(new Lasagna());
+-                break;
+-            case 2:
+-                processDish(new Pasta());
+-                break;
+-            case 3:
+-                processDish(new Risotto());
+-                break;
+-            default:
+-                System.out.println("Invalid choice");
++            case 1-> processDish(new Lasagna());
++            case 2-> processDish(new Pasta());
++            case 3-> processDish(new Risotto());
++            default-> System.out.println("Invalid choice");
+         }
+-
+     }
+     public void koreanMenu(){
+         System.out.println("===Choose Dishes===");
+         System.out.println("1.Ramen\n2.Sushi\n3.Tteokpokki\nChoose:");
+         int dishChoice=choice.nextInt();
+         switch(dishChoice) {
+-            case 1:
+-                processDish(new Ramen());
+-                break;
+-            case 2:
+-                processDish(new Sushi());
+-                break;
+-            case 3:
+-                processDish(new Tteokpokki());
+-                break;
+-            default:
+-                System.out.println("Invalid choice");
++            case 1 -> processDish(new Ramen());
++            case 2 -> processDish(new Sushi());
++            case 3 -> processDish(new Tteokpokki());
++            default -> System.out.println("Invalid choice");
+         }
+-
+     }
+     public void orderDrinks(){
+         System.out.println("===Choose Drinks===");
+         System.out.println("1.Water\n2.Juice\n3.Lemonade\nChoose:");
+         int drinkChoice=choice.nextInt();
+         switch(drinkChoice) {
+-            case 1:
+-                processDish(new Water());
+-                break;
+-            case 2:
+-                processDish(new Juice());
+-                break;
+-            case 3:
+-                processDish(new Lemonade());
+-                break;
+-            default:
+-                System.out.println("Invalid choice");
++            case 1 -> processDish(new Water());
++            case 2 -> processDish(new Juice());
++            case 3 -> processDish(new Lemonade());
++            default -> System.out.println("Invalid choice");
+         }
+     }
+ 
+     private void processDish(Dish newDish) {
+         dish = newDish;
+-        subject.addObserver(orderObserver);
+         totalPrice += dish.getDishPrice();
+-        subject.setMessage("You ordered " + dish.dishName() + ". Bon appetit!");
+-        subject.setMessage("Please wait 55-65 minutes for the order to arrive.");
+-        subject.removeObserver(orderObserver);
++        notification.Notify("You ordered " + dish.dishName() +" Bon appetit!",orderObserver);
+         userChoice();
+-
+         //он нужен чтобы в payOrder
+         // метод builder мог найти заказанную еду!!!
+         orderBuilder.addDish(dish);
+@@ -140,8 +95,6 @@
+         orderDishes();
+     }
+ 
+-
+-
+     public void userChoice(){
+         System.out.println("Do you want add extras?\n1.Yes\n2.No\nChoose:");
+         int addExtras=choice.nextInt();
+@@ -159,22 +112,13 @@
+         System.out.println("1.Bread\n2.Salad\n3.Sauce\nChoose:");
+         int extrasChoice=choice.nextInt();
+         switch(extrasChoice) {
+-            case 1:
+-                dish= new BreadDecorator(dish);
+-                break;
+-            case 2:
+-                dish = new SaladDecorator(dish);
+-                break;
+-            case 3:
+-                dish = new SauceDecorator(dish);
+-                break;
+-            default:
+-                System.out.println("Invalid choice");
++            case 1-> dish= new BreadDecorator(dish);
++            case 2-> dish= new SaladDecorator(dish);
++            case 3-> dish= new SauceDecorator(dish);
++            default-> System.out.println("Invalid choice");
+         }
+         totalPrice += dish.getDishPrice();
+-        subject.addObserver(orderObserver);
+-        subject.setMessage("You added extra " + dish.dishName() + ".");
+-        subject.removeObserver(orderObserver);
++        notification.Notify("You added extra " + dish.dishName() + ".", orderObserver);
+     }
+ 
+     public List<Dish> getOrderDishes() {
+Index: src/src/Facade/PaymentService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Facade;\r\n\r\nimport Builder.*;\r\nimport Strategy.*;\r\n\r\nimport java.util.Scanner;\r\n\r\npublic class PaymentService {\r\n    private final PaymentContext cardPayment=new PaymentContext(new CardPayment());\r\n    private final PaymentContext cashPayment=new PaymentContext(new CashPayment());\r\n    private final PaymentContext qrPayment=new PaymentContext(new QRPayment());\r\n    private final Order.OrderBuilder orderBuilder = new Order.OrderBuilder();\r\n\r\n    Scanner choice=new Scanner(System.in);\r\n    public void payOrder(){\r\n        System.out.println(\"Do you want to play a mini game for 10% discount?\");\r\n        System.out.println(\"1.Yes\\n2.No\");\r\n        int gameChoice = choice.nextInt();\r\n        if (gameChoice == 1) {\r\n            orderBuilder.addMiniGame(new MiniGame());\r\n        }\r\n        Order finalOrder = orderBuilder.build();\r\n        int total = finalOrder.getTotalPrice();\r\n\r\n        System.out.println(\"Choose how to pay order:\");\r\n        System.out.println(\"1.Card\\n2.Cash\\n3.Qr\\nChoose:\");\r\n        int orderChoice=choice.nextInt();\r\n        switch(orderChoice) {\r\n            case 1:\r\n                cardPayment.executeStrategy(total);\r\n                break;\r\n            case 2:\r\n                cashPayment.executeStrategy(total);\r\n                break;\r\n            case 3:\r\n                qrPayment.executeStrategy(total);\r\n                break;\r\n            default:\r\n                System.out.println(\"Invalid choice\");\r\n                break;\r\n        }\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/Facade/PaymentService.java b/src/src/Facade/PaymentService.java
+--- a/src/src/Facade/PaymentService.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/Facade/PaymentService.java	(date 1763309329126)
+@@ -6,13 +6,14 @@
+ import java.util.Scanner;
+ 
+ public class PaymentService {
+-    private final PaymentContext cardPayment=new PaymentContext(new CardPayment());
+-    private final PaymentContext cashPayment=new PaymentContext(new CashPayment());
+-    private final PaymentContext qrPayment=new PaymentContext(new QRPayment());
++    private final PaymentContext cardPayment = new PaymentContext(new CardPayment());
++    private final PaymentContext cashPayment = new PaymentContext(new CashPayment());
++    private final PaymentContext qrPayment = new PaymentContext(new QRPayment());
+     private final Order.OrderBuilder orderBuilder = new Order.OrderBuilder();
+ 
+-    Scanner choice=new Scanner(System.in);
+-    public void payOrder(){
++    Scanner choice = new Scanner(System.in);
++
++    public void payOrder() {
+         System.out.println("Do you want to play a mini game for 10% discount?");
+         System.out.println("1.Yes\n2.No");
+         int gameChoice = choice.nextInt();
+@@ -24,22 +25,12 @@
+ 
+         System.out.println("Choose how to pay order:");
+         System.out.println("1.Card\n2.Cash\n3.Qr\nChoose:");
+-        int orderChoice=choice.nextInt();
+-        switch(orderChoice) {
+-            case 1:
+-                cardPayment.executeStrategy(total);
+-                break;
+-            case 2:
+-                cashPayment.executeStrategy(total);
+-                break;
+-            case 3:
+-                qrPayment.executeStrategy(total);
+-                break;
+-            default:
+-                System.out.println("Invalid choice");
+-                break;
++        int orderChoice = choice.nextInt();
++        switch (orderChoice) {
++            case 1 -> cardPayment.executeStrategy(total);
++            case 2 -> cashPayment.executeStrategy(total);
++            case 3 -> qrPayment.executeStrategy(total);
++            default -> System.out.println("Invalid choice.");
+         }
+     }
+-
+-
+ }
+Index: src/src/Facade/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Facade;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class User implements Subject {\r\n    private final List<Observer> observers=new  ArrayList<>();\r\n    private String message=\" \";\r\n    private final String name;\r\n    private final String password;\r\n\r\n    public User(String name, String password) {\r\n        this.name = name;\r\n        this.password = password;\r\n    }\r\n\r\n    public String getName() {\r\n        return name;\r\n    }\r\n\r\n    public String getPassword() {\r\n        return password;\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/Facade/User.java b/src/src/Facade/User.java
+--- a/src/src/Facade/User.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/Facade/User.java	(date 1763308686517)
+@@ -1,13 +1,6 @@
+ package Facade;
+-import Observer.Subject;
+-import Observer.*;
+ 
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-public class User implements Subject {
+-    private final List<Observer> observers=new  ArrayList<>();
+-    private String message=" ";
++public  class User {
+     private final String name;
+     private final String password;
+ 
+@@ -24,23 +17,4 @@
+         return password;
+     }
+ 
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+\ No newline at end of file
+Index: src/src/FactoryMenu/Dishes/KoreanCuisine/Sushi.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.KoreanCuisine;\r\n\r\nimport FactoryMenu.Dish;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Sushi implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=2500;\r\n    @Override\r\n    public String dishName(){\r\n        return \"Sushi\";\r\n    }\r\n    @Override\r\n    public int getDishPrice() {\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/KoreanCuisine/Sushi.java b/src/src/FactoryMenu/Dishes/KoreanCuisine/Sushi.java
+--- a/src/src/FactoryMenu/Dishes/KoreanCuisine/Sushi.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/KoreanCuisine/Sushi.java	(date 1763307013169)
+@@ -1,16 +1,8 @@
+ package FactoryMenu.Dishes.KoreanCuisine;
+ 
+ import FactoryMenu.Dish;
+-import Observer.Subject;
+-import Observer.*;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+ 
+-public class Sushi implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
+-
++public class Sushi implements Dish {
+     int price=2500;
+     @Override
+     public String dishName(){
+@@ -25,23 +17,4 @@
+         return dishName();
+     }
+ 
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+Index: src/src/FactoryMenu/Dishes/KoreanCuisine/Ramen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.KoreanCuisine;\r\n\r\nimport FactoryMenu.Dish;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Ramen implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=2000;\r\n    @Override\r\n    public String dishName() {\r\n        return \"Ramen\";\r\n    }\r\n    @Override\r\n    public int getDishPrice(){\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/KoreanCuisine/Ramen.java b/src/src/FactoryMenu/Dishes/KoreanCuisine/Ramen.java
+--- a/src/src/FactoryMenu/Dishes/KoreanCuisine/Ramen.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/KoreanCuisine/Ramen.java	(date 1763307013183)
+@@ -1,16 +1,8 @@
+ package FactoryMenu.Dishes.KoreanCuisine;
+ 
+ import FactoryMenu.Dish;
+-import Observer.Subject;
+-import Observer.*;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+ 
+-public class Ramen implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
+-
++public class Ramen implements Dish  {
+     int price=2000;
+     @Override
+     public String dishName() {
+@@ -24,24 +16,4 @@
+     public String toString() {
+         return dishName();
+     }
+-
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+Index: src/src/FactoryMenu/Dishes/KazakhCuisine/Mantas.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.KazakhCuisine;\r\n\r\nimport FactoryMenu.Dish;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Mantas implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=3000;\r\n    @Override\r\n    public String dishName(){\r\n        return \"Mantas\";\r\n    }\r\n    @Override\r\n    public int getDishPrice(){\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString(){\r\n        return dishName();\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/KazakhCuisine/Mantas.java b/src/src/FactoryMenu/Dishes/KazakhCuisine/Mantas.java
+--- a/src/src/FactoryMenu/Dishes/KazakhCuisine/Mantas.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/KazakhCuisine/Mantas.java	(date 1763307013087)
+@@ -1,16 +1,8 @@
+ package FactoryMenu.Dishes.KazakhCuisine;
+ 
+ import FactoryMenu.Dish;
+-import Observer.Subject;
+-import Observer.*;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+ 
+-public class Mantas implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
+-
++public class Mantas implements Dish {
+     int price=3000;
+     @Override
+     public String dishName(){
+@@ -24,24 +16,4 @@
+     public String toString(){
+         return dishName();
+     }
+-
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+Index: src/src/FactoryMenu/Dishes/KazakhCuisine/Beshbarmak.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.KazakhCuisine;\r\nimport FactoryMenu.Dish;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Beshbarmak implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=2500;\r\n    @Override\r\n    public String dishName(){\r\n        return \"Beshbarmak\";\r\n    }\r\n    @Override\r\n    public int getDishPrice(){\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName() ;\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/KazakhCuisine/Beshbarmak.java b/src/src/FactoryMenu/Dishes/KazakhCuisine/Beshbarmak.java
+--- a/src/src/FactoryMenu/Dishes/KazakhCuisine/Beshbarmak.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/KazakhCuisine/Beshbarmak.java	(date 1763307013143)
+@@ -1,15 +1,7 @@
+ package FactoryMenu.Dishes.KazakhCuisine;
+ import FactoryMenu.Dish;
+-import Observer.Subject;
+-import Observer.*;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+ 
+-public class Beshbarmak implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
+-
++public class Beshbarmak implements Dish {
+     int price=2500;
+     @Override
+     public String dishName(){
+@@ -23,24 +15,4 @@
+     public String toString() {
+         return dishName() ;
+     }
+-
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+Index: src/src/FactoryMenu/Dishes/KoreanCuisine/Tteokpokki.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.KoreanCuisine;\r\nimport FactoryMenu.Dish;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Tteokpokki implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=1500;\r\n    @Override\r\n    public String dishName() {\r\n        return \"Tteokpokki\";\r\n    }\r\n    @Override\r\n    public int getDishPrice() {\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/KoreanCuisine/Tteokpokki.java b/src/src/FactoryMenu/Dishes/KoreanCuisine/Tteokpokki.java
+--- a/src/src/FactoryMenu/Dishes/KoreanCuisine/Tteokpokki.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/KoreanCuisine/Tteokpokki.java	(date 1763307013278)
+@@ -1,14 +1,7 @@
+ package FactoryMenu.Dishes.KoreanCuisine;
+ import FactoryMenu.Dish;
+-import Observer.Subject;
+-import Observer.*;
+ 
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-public class Tteokpokki implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
++public class Tteokpokki implements Dish {
+ 
+     int price=1500;
+     @Override
+@@ -24,23 +17,4 @@
+         return dishName();
+     }
+ 
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+Index: src/src/FactoryMenu/Dishes/ItalianCuisine/Pasta.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.ItalianCuisine;\r\nimport FactoryMenu.Dish;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Pasta implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=2500;\r\n    @Override\r\n    public String dishName() {\r\n        return \"Pasta\";\r\n    }\r\n    @Override\r\n    public int getDishPrice() {\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/ItalianCuisine/Pasta.java b/src/src/FactoryMenu/Dishes/ItalianCuisine/Pasta.java
+--- a/src/src/FactoryMenu/Dishes/ItalianCuisine/Pasta.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/ItalianCuisine/Pasta.java	(date 1763307013251)
+@@ -1,15 +1,7 @@
+ package FactoryMenu.Dishes.ItalianCuisine;
+ import FactoryMenu.Dish;
+-import Observer.Subject;
+-import Observer.*;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+ 
+-public class Pasta implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
+-
++public class Pasta implements Dish {
+     int price=2500;
+     @Override
+     public String dishName() {
+@@ -24,23 +16,4 @@
+         return dishName();
+     }
+ 
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+Index: src/src/FactoryMenu/Dishes/ItalianCuisine/Lasagna.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.ItalianCuisine;\r\nimport FactoryMenu.Dish;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Lasagna implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=2500;\r\n    @Override\r\n    public String dishName() {\r\n        return \"Lasagna\";\r\n    }\r\n    @Override\r\n    public int getDishPrice() {\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/ItalianCuisine/Lasagna.java b/src/src/FactoryMenu/Dishes/ItalianCuisine/Lasagna.java
+--- a/src/src/FactoryMenu/Dishes/ItalianCuisine/Lasagna.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/ItalianCuisine/Lasagna.java	(date 1763307013197)
+@@ -1,15 +1,10 @@
+ package FactoryMenu.Dishes.ItalianCuisine;
+ import FactoryMenu.Dish;
+-import Observer.Subject;
+-import Observer.*;
+ 
+ import java.util.ArrayList;
+ import java.util.List;
+ 
+-public class Lasagna implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
+-
++public class Lasagna implements Dish {
+     int price=2500;
+     @Override
+     public String dishName() {
+@@ -23,25 +18,4 @@
+     public String toString() {
+         return dishName();
+     }
+-
+-
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+\ No newline at end of file
+Index: src/src/FactoryMenu/Dishes/KazakhCuisine/Quyrdaq.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.KazakhCuisine;\r\n\r\nimport FactoryMenu.Dish;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Quyrdaq implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=2500;\r\n    @Override\r\n    public String dishName(){\r\n        return \"Quyirdaq\";\r\n    }\r\n    @Override\r\n    public int getDishPrice(){\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/KazakhCuisine/Quyrdaq.java b/src/src/FactoryMenu/Dishes/KazakhCuisine/Quyrdaq.java
+--- a/src/src/FactoryMenu/Dishes/KazakhCuisine/Quyrdaq.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/KazakhCuisine/Quyrdaq.java	(date 1763307013001)
+@@ -1,16 +1,8 @@
+ package FactoryMenu.Dishes.KazakhCuisine;
+ 
+ import FactoryMenu.Dish;
+-import Observer.Subject;
+-import Observer.*;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+ 
+-public class Quyrdaq implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
+-
++public class Quyrdaq implements Dish {
+     int price=2500;
+     @Override
+     public String dishName(){
+@@ -24,24 +16,4 @@
+     public String toString() {
+         return dishName();
+     }
+-
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+Index: src/src/FactoryMenu/Dishes/Drinks/Juice.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.Drinks;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\nimport FactoryMenu.Dish;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n\r\npublic class Juice implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n    int price=500;\r\n\r\n    @Override\r\n    public String dishName() {\r\n        return \"Juice\";\r\n    }\r\n    @Override\r\n    public int getDishPrice() {\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/Drinks/Juice.java b/src/src/FactoryMenu/Dishes/Drinks/Juice.java
+--- a/src/src/FactoryMenu/Dishes/Drinks/Juice.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/Drinks/Juice.java	(date 1763307012926)
+@@ -1,15 +1,8 @@
+ package FactoryMenu.Dishes.Drinks;
+-import Observer.Subject;
+-import Observer.*;
++
+ import FactoryMenu.Dish;
+ 
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-
+-public class Juice implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
++public class Juice implements Dish {
+     int price=500;
+ 
+     @Override
+@@ -25,25 +18,4 @@
+         return dishName();
+     }
+ 
+-
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+Index: src/src/FactoryMenu/Dishes/ItalianCuisine/Risotto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package FactoryMenu.Dishes.ItalianCuisine;\r\nimport FactoryMenu.Dish;\r\nimport Observer.Subject;\r\nimport Observer.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Risotto implements Dish, Subject {\r\n    private final List<Observer> observers=new ArrayList<>();\r\n    private String message=\"\";\r\n\r\n    int price=2500;\r\n    @Override\r\n    public String dishName() {\r\n        return \"Risotto\";\r\n    }\r\n    @Override\r\n    public int getDishPrice() {\r\n        return price;\r\n    }\r\n    @Override\r\n    public String toString() {\r\n        return dishName();\r\n    }\r\n\r\n    @Override\r\n    public void addObserver(Observer observer){\r\n        observers.add(observer);\r\n    }\r\n    @Override\r\n    public void removeObserver(Observer observer){\r\n        observers.remove(observer);\r\n    }\r\n    @Override\r\n    public void notifyObservers() {\r\n        for (Observer observer : observers) {\r\n            observer.update(message);\r\n        }\r\n    }\r\n    @Override\r\n    public void setMessage(String message){\r\n        this.message=message;\r\n        notifyObservers();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/FactoryMenu/Dishes/ItalianCuisine/Risotto.java b/src/src/FactoryMenu/Dishes/ItalianCuisine/Risotto.java
+--- a/src/src/FactoryMenu/Dishes/ItalianCuisine/Risotto.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/FactoryMenu/Dishes/ItalianCuisine/Risotto.java	(date 1763307013117)
+@@ -1,15 +1,7 @@
+ package FactoryMenu.Dishes.ItalianCuisine;
+ import FactoryMenu.Dish;
+-import Observer.Subject;
+-import Observer.*;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+ 
+-public class Risotto implements Dish, Subject {
+-    private final List<Observer> observers=new ArrayList<>();
+-    private String message="";
+-
++public class Risotto implements Dish {
+     int price=2500;
+     @Override
+     public String dishName() {
+@@ -23,24 +15,4 @@
+     public String toString() {
+         return dishName();
+     }
+-
+-    @Override
+-    public void addObserver(Observer observer){
+-        observers.add(observer);
+-    }
+-    @Override
+-    public void removeObserver(Observer observer){
+-        observers.remove(observer);
+-    }
+-    @Override
+-    public void notifyObservers() {
+-        for (Observer observer : observers) {
+-            observer.update(message);
+-        }
+-    }
+-    @Override
+-    public void setMessage(String message){
+-        this.message=message;
+-        notifyObservers();
+-    }
+ }
+\ No newline at end of file
+Index: src/src/Observer/orderObserver.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/Observer/orderObserver.java b/src/src/Observer/OrderObserver.java
+rename from src/src/Observer/orderObserver.java
+rename to src/src/Observer/OrderObserver.java
+--- a/src/src/Observer/orderObserver.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/Observer/OrderObserver.java	(date 1763304996554)
+@@ -1,13 +1,9 @@
+ package Observer;
+ 
+-public class orderObserver implements Observer {
+-    private String message;
++public class OrderObserver implements Observer {
++
+     @Override
+     public void update(String message) {
+-        this.message = message;
+-        order();
+-    }
+-    public void order() {
+-        System.out.println("[USER] "+message);
++        System.out.println("[USER] " + message);
+     }
+ }
+Index: src/src/Observer/userObserver.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/src/Observer/userObserver.java b/src/src/Observer/UserObserver.java
+rename from src/src/Observer/userObserver.java
+rename to src/src/Observer/UserObserver.java
+--- a/src/src/Observer/userObserver.java	(revision 75b56703cd04465a4b607164fe30e63ccfb9aae2)
++++ b/src/src/Observer/UserObserver.java	(date 1763304996671)
+@@ -1,13 +1,9 @@
+ package Observer;
+ 
+-public class userObserver implements Observer {
+-    public String message;
++public class UserObserver implements Observer {
++
+     @Override
+     public void update(String message) {
+-        this.message=message;
+-        user();
+-    }
+-    public void user(){
+         System.out.println("[PICK ME RESTAURANT] " + message);
+     }
+ }
