@@ -25,7 +25,7 @@ public class OrderService {
 
     public void orderDishes(){
         System.out.println("===Choose Dishes===");
-        System.out.println("1.Kazakh Cuisine\n2.Italian Cuisine\n3.Korean Cuisine\n0.Exit\nChoose:");
+        System.out.println("1.Kazakh Cuisine\n2.Italian Cuisine\n3.Korean Cuisine\n4.Drinks\n0.Exit\nChoose:");
         int cuisine=choice.nextInt();
         switch(cuisine) {
             case 1:
