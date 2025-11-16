@@ -28,7 +28,7 @@ public class Facade{
                 System.out.println("1.Show menu");
                 System.out.println("2.Order dishes");
                 System.out.println("3.Show ordered dishes");
-                System.out.println("4.Pay orderObserver");
+                System.out.println("4.Pay order");
                 System.out.println("5.Log out");
                 System.out.println("6.Add new user");
                 System.out.println("0.Exit");

@@ -1,0 +1,34 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_16_11_2025_21_30_[Changes]1" date="1763310613469" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_11_2025_21_30_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 16.11.2025 21:30 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Juice.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Juice.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_11_2025_21_30_[Changes]1/Juice.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Water.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Water.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_11_2025_21_30_[Changes]1/Water.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Facade/UserManager.class" />
+    <option name="AFTER_PATH" value="out/production/src/Facade/UserManager.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_11_2025_21_30_[Changes]1/UserManager.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Observer/userObserver.class" />
+    <option name="AFTER_PATH" value="out/production/src/Observer/userObserver.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_11_2025_21_30_[Changes]1/userObserver.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Lemonade.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Lemonade.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_11_2025_21_30_[Changes]1/Lemonade.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Observer/orderObserver.class" />
+    <option name="AFTER_PATH" value="out/production/src/Observer/orderObserver.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_11_2025_21_30_[Changes]1/orderObserver.class" />
+  </binary>
+</changelist>

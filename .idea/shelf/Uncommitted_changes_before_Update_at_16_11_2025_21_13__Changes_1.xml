@@ -1,0 +1,144 @@
+<changelist name="Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1" date="1763309662122" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 16.11.2025 21:13 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/ItalianCuisine/ItalianDish.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/ItalianCuisine/ItalianDish.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/ItalianDish.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Calculate.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Calculate.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/Calculate.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dish.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dish.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/Dish.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Decorator/SauceDecorator.class" />
+    <option name="AFTER_PATH" value="out/production/src/Decorator/SauceDecorator.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/SauceDecorator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Strategy/CashPayment.class" />
+    <option name="AFTER_PATH" value="out/production/src/Strategy/CashPayment.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/CashPayment.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Decorator/BreadDecorator.class" />
+    <option name="AFTER_PATH" value="out/production/src/Decorator/BreadDecorator.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/BreadDecorator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/ItalianCuisine/ItalianDish$1.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/ItalianCuisine/ItalianDish$1.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/ItalianDish$1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/KoreanCuisine/KoreanDish.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/KoreanCuisine/KoreanDish.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/KoreanDish.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Juice.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Juice.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/Juice.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/DishCategory.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/DishCategory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/DishCategory.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Strategy/QRPayment.class" />
+    <option name="AFTER_PATH" value="out/production/src/Strategy/QRPayment.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/QRPayment.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/DrinkCreator$1.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/DrinkCreator$1.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/DrinkCreator$1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Water.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Water.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/Water.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Main.class" />
+    <option name="AFTER_PATH" value="out/production/src/Main.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/Main.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Decorator/SaladDecorator.class" />
+    <option name="AFTER_PATH" value="out/production/src/Decorator/SaladDecorator.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/SaladDecorator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Facade/UserManager.class" />
+    <option name="AFTER_PATH" value="out/production/src/Facade/UserManager.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/UserManager.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Observer/userObserver.class" />
+    <option name="AFTER_PATH" value="out/production/src/Observer/userObserver.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/userObserver.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Strategy/CardPayment.class" />
+    <option name="AFTER_PATH" value="out/production/src/Strategy/CardPayment.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/CardPayment.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/DrinkCreator.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/DrinkCreator.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/DrinkCreator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/DishFactory.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/DishFactory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/DishFactory.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Decorator/DishDecorator.class" />
+    <option name="AFTER_PATH" value="out/production/src/Decorator/DishDecorator.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/DishDecorator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/KazakhCuisine/KazakhDish.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/KazakhCuisine/KazakhDish.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/KazakhDish.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Observer/Observer.class" />
+    <option name="AFTER_PATH" value="out/production/src/Observer/Observer.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/Observer.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Strategy/PaymentContext.class" />
+    <option name="AFTER_PATH" value="out/production/src/Strategy/PaymentContext.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/PaymentContext.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Lemonade.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/Drinks/Lemonade.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/Lemonade.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/KazakhCuisine/KazakhDish$1.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/KazakhCuisine/KazakhDish$1.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/KazakhDish$1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/Observer/orderObserver.class" />
+    <option name="AFTER_PATH" value="out/production/src/Observer/orderObserver.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/orderObserver.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/src/FactoryMenu/Dishes/KoreanCuisine/KoreanDish$1.class" />
+    <option name="AFTER_PATH" value="out/production/src/FactoryMenu/Dishes/KoreanCuisine/KoreanDish$1.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2025_21_13_[Changes]1/KoreanDish$1.class" />
+  </binary>
+</changelist>
