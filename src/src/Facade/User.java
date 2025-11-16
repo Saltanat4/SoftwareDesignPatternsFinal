@@ -1,10 +1,11 @@
 package Facade;
+import Observer.Subject;
 import Observer.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class User implements Subject{
+public class User implements Subject {
     private final List<Observer> observers=new  ArrayList<>();
     private String message=" ";
     private final String name;

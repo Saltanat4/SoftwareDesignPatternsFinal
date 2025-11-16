@@ -1,6 +1,7 @@
 package FactoryMenu.Dishes.KazakhCuisine;
 
 import FactoryMenu.Dish;
+import Observer.Subject;
 import Observer.*;
 
 import java.util.ArrayList;
