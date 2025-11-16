@@ -36,10 +36,18 @@ public class PaymentService {
         System.out.println("1.Card\n2.Cash\n3.Qr\nChoose:");
         int choice = scanner.nextInt();
         switch (choice) {
-            case 1 -> cardPayment.executeStrategy(order.getFinalPrice());
-            case 2 -> cashPayment.executeStrategy(order.getFinalPrice());
-            case 3 -> qrPayment.executeStrategy(order.getFinalPrice());
-            default -> System.out.println("Invalid option");
+            case 1:
+                cardPayment.executeStrategy(order.getFinalPrice());
+                break;
+            case 2:
+                cashPayment.executeStrategy(order.getFinalPrice());
+                break;
+            case 3:
+                qrPayment.executeStrategy(order.getFinalPrice());
+                break;
+            default:
+                System.out.println("Invalid option");
+                break;
         }
     }
 }

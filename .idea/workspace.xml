@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc362979-1dd3-4b95-8d53-a4a4995342d2" name="Changes" comment="clean2" />
+    <list default="true" id="fc362979-1dd3-4b95-8d53-a4a4995342d2" name="Changes" comment="clean2">
+      <change beforePath="$PROJECT_DIR$/src/src/Facade/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/src/Facade/PaymentService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -111,7 +113,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763315509544</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="clean2">
+      <option name="closed" value="true" />
+      <created>1763315591651</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1763315591651</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
