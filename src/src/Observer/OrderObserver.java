@@ -1,6 +1,6 @@
 package Observer;
 
-public class orderObserver implements Observer {
+public class OrderObserver implements Observer {
     private String message;
     @Override
     public void update(String message) {
