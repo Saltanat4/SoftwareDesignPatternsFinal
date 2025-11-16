@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class OrderService {
 
-    private Subject subject=new Lasagna();
+    private final Subject subject=new Lasagna();
     orderObserver orderObserver =new orderObserver();
 
     private final List<Dish> orderDishes=new ArrayList<>();
