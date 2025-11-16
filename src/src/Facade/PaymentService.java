@@ -6,40 +6,40 @@ import Strategy.*;
 import java.util.Scanner;
 
 public class PaymentService {
-    private final PaymentContext cardPayment=new PaymentContext(new CardPayment());
-    private final PaymentContext cashPayment=new PaymentContext(new CashPayment());
-    private final PaymentContext qrPayment=new PaymentContext(new QRPayment());
-    private final Order.OrderBuilder orderBuilder = new Order.OrderBuilder();
+    private final PaymentContext cardPayment = new PaymentContext(new CardPayment());
+    private final PaymentContext cashPayment = new PaymentContext(new CashPayment());
+    private final PaymentContext qrPayment = new PaymentContext(new QRPayment());
+    private final Scanner scanner = new Scanner(System.in);
 
-    Scanner choice=new Scanner(System.in);
-    public void payOrder(){
-        System.out.println("Do you want to play a mini game for 10% discount?");
-        System.out.println("1.Yes\n2.No");
-        int gameChoice = choice.nextInt();
-        if (gameChoice == 1) {
-            orderBuilder.addMiniGame(new MiniGame());
+    public void payOrder(int totalPrice) {
+        PaymentOrderBuilder builder = new PaymentOrderBuilder()
+                .setOriginalPrice(totalPrice);
+
+        System.out.println("\nDo you want to play a mini-game for a 10% discount?");
+        System.out.println("1.Yes  2.No");
+        int playChoice = scanner.nextInt();
+
+        MiniGame game = new MiniGame();
+        if (playChoice == 1) {
+            boolean win = game.play();
+            if (win) builder.applyDiscount();
         }
-        Order finalOrder = orderBuilder.build();
-        int total = finalOrder.getTotalPrice();
 
-        System.out.println("Choose how to pay order:");
+        PaymentOrder order = builder.build();
+
+        System.out.println("\n--- Payment Summary ---");
+        System.out.println("Original Price: " + order.getOriginalPrice());
+        System.out.println("Final Price: " + order.getFinalPrice());
+        System.out.println("------------------------\n");
+
+        System.out.println("Choose payment method:");
         System.out.println("1.Card\n2.Cash\n3.Qr\nChoose:");
-        int orderChoice=choice.nextInt();
-        switch(orderChoice) {
-            case 1:
-                cardPayment.executeStrategy(total);
-                break;
-            case 2:
-                cashPayment.executeStrategy(total);
-                break;
-            case 3:
-                qrPayment.executeStrategy(total);
-                break;
-            default:
-                System.out.println("Invalid choice");
-                break;
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1 -> cardPayment.executeStrategy(order.getFinalPrice());
+            case 2 -> cashPayment.executeStrategy(order.getFinalPrice());
+            case 3 -> qrPayment.executeStrategy(order.getFinalPrice());
+            default -> System.out.println("Invalid option");
         }
     }
-
-
 }

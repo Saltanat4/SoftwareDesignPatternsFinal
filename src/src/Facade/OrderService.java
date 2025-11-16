@@ -19,7 +19,6 @@ public class OrderService {
     orderObserver orderObserver =new orderObserver();
 
     private final List<Dish> orderDishes=new ArrayList<>();
-    private final Order.OrderBuilder orderBuilder = new Order.OrderBuilder();
     private Dish dish;
 
     public int totalPrice=0;
@@ -126,22 +125,15 @@ public class OrderService {
 
     private void processDish(Dish newDish) {
         dish = newDish;
+        orderDishes.add(dish);
         subject.addObserver(orderObserver);
         totalPrice += dish.getDishPrice();
         subject.setMessage("You ordered " + dish.dishName() + ". Bon appetit!");
         subject.setMessage("Please wait 55-65 minutes for the order to arrive.");
         subject.removeObserver(orderObserver);
         userChoice();
-
-        //он нужен чтобы в payOrder
-        // метод builder мог найти заказанную еду!!!
-        orderBuilder.addDish(dish);
-        orderDishes.add(dish);
         orderDishes();
     }
-
-
-
     public void userChoice(){
         System.out.println("Do you want add extras?\n1.Yes\n2.No\nChoose:");
         int addExtras=choice.nextInt();
@@ -153,7 +145,6 @@ public class OrderService {
                 break;
         }
     }
-
     public void addExtras(){
         System.out.println("===Choose Extras===");
         System.out.println("1.Bread\n2.Salad\n3.Sauce\nChoose:");
@@ -171,16 +162,16 @@ public class OrderService {
             default:
                 System.out.println("Invalid choice");
         }
-        totalPrice += dish.getDishPrice();
+        totalPrice = totalPrice - orderDishes.get(orderDishes.size() - 1).getDishPrice() + dish.getDishPrice();
+        orderDishes.set(orderDishes.size() - 1, dish);
+
         subject.addObserver(orderObserver);
         subject.setMessage("You added extra " + dish.dishName() + ".");
         subject.removeObserver(orderObserver);
     }
-
     public List<Dish> getOrderDishes() {
         return orderDishes;
     }
-
     public int getTotalPrice(){
         return totalPrice;
     }

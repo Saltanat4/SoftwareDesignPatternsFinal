@@ -50,7 +50,7 @@ public class Facade{
                         break;
                     case 4:
                         PaymentService paymentService=new PaymentService();
-                        paymentService.payOrder();
+                        paymentService.payOrder(totalPrice);
                         break;
                     case 5:
                         logOut();
