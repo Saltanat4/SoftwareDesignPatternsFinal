@@ -1,0 +1,33 @@
+package FactoryMenu.Dishes.KazakhCuisine;
+
+import FactoryMenu.Dish;
+import FactoryMenu.DishFactory;
+import FactoryMenu.DishCategory;
+
+import java.util.ArrayList;
+
+public class KazakhDish implements DishFactory {
+    ArrayList<Dish> dishes= new ArrayList<>();
+    @Override
+    public Dish createDish(DishCategory dish) {
+        return switch (dish) {
+            case BESHBARMAK -> new Beshbarmak();
+            case MANTAS -> new Mantas();
+            case QUYRDAQ -> new Quyrdaq();
+            default -> throw new IllegalStateException("Unexpected value: " + dish);
+        };
+    }
+    public void setKazakhDish() {
+        dishes.add(new Beshbarmak());
+        dishes.add(new Mantas());
+        dishes.add(new Quyrdaq());
+    }
+    public ArrayList<Dish> getDishes() {
+        System.out.print("Korean Dishes: ");
+        return dishes;
+    }
+    public void displayDishes() {
+        System.out.println("Kazakh Dishes:");
+        dishes.forEach(dish -> System.out.println(" - " + dish.dishName() + " : " + dish.getDishPrice() + "₸"));
+    }
+}
